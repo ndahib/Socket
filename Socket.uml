@@ -1,0 +1,23 @@
+----------------------------------------------
+|             SocketBuilder                  |
+----------------------------------------------
+| + set_port(port: int) : SocketBuilder      |
+| + set_timeout(timeout: int) : SocketBuilder|
+| + build() : Socket                         |
+----------------------------------------------
+                      /\
+                      |
+            --------------------------------
+            |                               |
+  -------------------              -----------------------
+  | TCPSocketBuilder |             |     UDPSocketBuilder   |
+  -------------------               ------------------------
+  | - _port: int      |            | - _port: int            |
+  | - _timeout: int   |            | - _timeout: int         |
+  | - _listener: bool |            |                         |
+  -------------------                  -----------------
+  | + set_port(port)  |            | + set_port(port)        |
+  | + set_timeout(timeout)         | + set_timeout(timeout)  |
+  | + with_listener(listener=True) |                         |
+  | + build()          |           | + build()               |
+  -------------------  -           ---------------------------
