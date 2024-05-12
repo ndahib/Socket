@@ -6,24 +6,28 @@
 /*   By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 12:50:55 by ndahib            #+#    #+#             */
-/*   Updated: 2024/05/11 15:31:31 by ndahib           ###   ########.fr       */
+/*   Updated: 2024/05/12 14:58:02 by ndahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SOCKETDIRECTOR_HPP
 #define SOCKETDIRECTOR_HPP
 
-#include "ISocket.hpp"
+#include "TcpSocket.hpp"
 
 class SocketDirector
 {
 	private:
-		ISocket* _socketBuilder;
+		TcpSocket _socketBuilder;
 	public:
-		SocketDirector(ISocket* socketBuilder);
+		SocketDirector(const TcpSocket &socketBuilder);
 		~SocketDirector();
-		SOCKET buildClient();
-		SOCKET buildServer();
+		SOCKET SetupClient();
+		SOCKET SetupServer(); 
+
+		
+		void	HandleServerConnection();
+		void	HandleClientConnection();
 };
 
 #endif /*SOCKETDIRECTOR_HPP*/

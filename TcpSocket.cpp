@@ -6,104 +6,183 @@
 /*   By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 13:11:53 by ndahib            #+#    #+#             */
-/*   Updated: 2024/05/11 15:49:40 by ndahib           ###   ########.fr       */
+/*   Updated: 2024/05/12 13:10:26 by ndahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "TcpSocket.hpp"
 
 /* ************************************************************************** */
-TCPSocket::TCPSocket(){}
-TCPSocket::TCPSocket(const ISocket &obj){}
-TCPSocket &TCPSocket::operator=(const ISocket &obj){}
+TcpSocket::TcpSocket(){}
+TcpSocket::TcpSocket(const TcpSocket &obj){
+	_Socket = obj._Socket;
+	_isBound = obj._isBound;
+	_isClosed = obj._isClosed;
+	_isListener = obj._isListener;
+	_isBlocking = obj._isBlocking;
+	_bytesReceived = obj._bytesReceived;
+	_bytesSent = obj._bytesReceived;
+	_Port = obj._Port;
+	_Ip = obj._Ip;
+	
+	if (std::atoi(_Port) < 1024 || std::atoi(_Port) > 65535)
+	{
+		throw(TcpSocket::GeneralError("Please , Use ports between 1024 and 65535 :) "));
+	}
 
-/* ******************************Constructor********************************** */
-
-TCPSocket::TCPSocket(const char* Ip, const char*  port) : ISocket(Ip, port){
 	struct addrinfo hints;
 	memset(&hints, '\0', sizeof(hints));
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
 
+	getaddrinfo(_Ip, _Port, &hints, &_AddrToBind);
+}
+TcpSocket &TcpSocket::operator=(const TcpSocket &obj){
+	(void)obj;
+	return (*this);
+}
+
+/* ******************************Constructor********************************** */
+
+TcpSocket::TcpSocket(const char* Ip, const char*  port) : _Ip(Ip), _Port(port){
+
+ 	_Socket = -1;
+	_isBound = false;
+	_isClosed = false;
+	_isListener = false;
+	_isBlocking = false;
+	_bytesReceived = 0;
+	_bytesSent = 0;
+
+	struct addrinfo hints;
+	memset(&hints, '\0', sizeof(hints));
+	hints.ai_family = AF_INET;
+	hints.ai_socktype = SOCK_STREAM;
+	hints.ai_flags = AI_PASSIVE;
 	getaddrinfo(Ip, port, &hints, &_AddrToBind);
 }
-TCPSocket::~TCPSocket(){
-	freeaddrinfo(_AddrToBind);
+
+TcpSocket::~TcpSocket(){
+	if (_AddrToBind != NULL)
+		freeaddrinfo(_AddrToBind);
 }
 
 /* **********************************Method*********************************** */
-void	TCPSocket::createSocket(){
+void	TcpSocket::createSocket(){
 	_Socket = socket(_AddrToBind->ai_family, _AddrToBind->ai_socktype, _AddrToBind->ai_protocol);
 	if (!ISVALIDSOCKET(_Socket))
-		throw(std::string("Creating Socket error"));
+		throw(TcpSocket::SocketExeption());
 }
-void	TCPSocket::Bind(){
+
+void	TcpSocket::Bind(){
 	if(bind(_Socket, _AddrToBind->ai_addr, _AddrToBind->ai_addrlen) < 0)
-		throw(std::string ("Bind error"));
+		throw(TcpSocket::BindException());
 	_isBound = true;
 }
 
-void	TCPSocket::Listen(){
+void	TcpSocket::Listen(){
 	if (listen(_Socket, BACKLOG) == -1)
-		throw(std::string("Listen Error"));
+		throw(TcpSocket::ListenException());
 	_isListening = true;
 }
 
-void	TCPSocket::Accept(){
+void	TcpSocket::Accept(){
 	int newfd = accept(_Socket , NULL, NULL);
 	if (newfd == -1)
-		throw( std::string ("Accept error"));
+		throw (TcpSocket::AcceptExcption());
 	ClientsAccpeted.push_back(newfd);
 }
 
-void	TCPSocket::Close(){
+void	TcpSocket::Close(){
 	close(_Socket);
 }
-void	TCPSocket::setToreuseAddr(){
+void	TcpSocket::setSocketOption(int Flag){
 	int reusaddr = 1;
-	if(setsockopt(_Socket, SOL_SOCKET, SO_REUSEADDR, &reusaddr, sizeof(reusaddr)) < 0)
-		throw std::string("setsockopt error");
+	if(setsockopt(_Socket, SOL_SOCKET, Flag, &reusaddr, sizeof(reusaddr)) < 0)
+		throw (TcpSocket::SocketExeption());
 }
 
-void	TCPSocket::seToNonBlocking(){
-	_isBlocking = fcntl(_Socket, F_SETFL, O_NONBLOCK);
-	if (_isBlocking == -1)
-		throw std::string("fcntl error");
+void	TcpSocket::seToNonBlocking(){
+	if (fcntl(_Socket, F_SETFL, O_NONBLOCK) < 0)
+		throw (TcpSocket::AcceptExcption());
+	_isBlocking = true;
 }
 
-void	TCPSocket::setToLisner(){
+void	TcpSocket::setToLisner(){
 	_isListener = true;
 }
 
 /* **********************************Getters*********************************** */
-SOCKET  TCPSocket::Socket() const{
+SOCKET  TcpSocket::Socket() const{
 	return (_Socket);
 }
-int	    TCPSocket::getPort() const{
+int	    TcpSocket::getPort() const{
 	return (std::atoi(_Port));
 }
-int TCPSocket::getBufferSize() const{
+int TcpSocket::getBufferSize() const{
 	return (_bytesReceived);
 }
-bool    TCPSocket::isListener() const{
+bool    TcpSocket::isListener() const{
 	return (_isListener);
 }
-// std::vector<char> 	TCPSocket::getBufferReceived() const;
+// std::vector<char> 	TcpSocket::getBufferReceived() const;
 
 /* **********************************Check*********************************** */
-bool	TCPSocket::isBound() const{
+bool	TcpSocket::isBound() const{
 	return (_isBound);
 }
-bool	TCPSocket::isClosed() const{
-	(ISVALIDSOCKET(_Socket) ? false : true);
+bool	TcpSocket::isClosed() const{
+	return ((ISVALIDSOCKET(_Socket) ? false : true));
 }
-bool	TCPSocket::isListening() const{
+bool	TcpSocket::isListening() const{
 	return (_isListening);
 }
-bool	TCPSocket::isListenerSocket() const{
+bool	TcpSocket::isListenerSocket() const{
 	return (_isListener);
 }
-bool	TCPSocket::isBlocking() const{
+bool	TcpSocket::isBlocking() const{
 	return (_isBlocking);
+}
+
+
+/* ********************************Exception********************************** */
+char const *TcpSocket::SocketExeption::what(){
+	std::string error = "Socket failure: " ;
+	error +=  std::strerror(errno);
+	return (error.c_str());
+}
+
+char const *TcpSocket::BindException::what(){
+	std::string error = "Bind failure: " ;
+	error +=  std::strerror(errno);
+	return (error.c_str());
+}
+
+char const *TcpSocket::ConnectExeption::what(){
+	std::string error = "Connect failure: " ;
+	error +=  std::strerror(errno);
+	return (error.c_str());
+}
+
+char const *TcpSocket::ListenException::what(){
+	std::string error = "Listen failure: " ;
+	error +=  std::strerror(errno);
+	return (error.c_str());
+}
+
+char const *TcpSocket::AcceptExcption::what(){
+	std::string error = "Accept failure: " ;
+	error +=  std::strerror(errno);
+	return (error.c_str());
+}
+
+TcpSocket::GeneralError::GeneralError(std::string strError)
+{
+	this->strError = strError;
+}
+
+const char *TcpSocket::GeneralError::what() const throw() {
+	strError += std::strerror(errno);
+	return (this->strError.c_str());
 }

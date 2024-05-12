@@ -6,30 +6,44 @@
 /*   By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 11:34:31 by ndahib            #+#    #+#             */
-/*   Updated: 2024/05/11 15:48:46 by ndahib           ###   ########.fr       */
+/*   Updated: 2024/05/12 13:09:41 by ndahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TCPSOCKET_HPP
-#define TCPSOCKET_HPP
+#ifndef TcpSocket_HPP
+#define TcpSocket_HPP
+# include <sys/socket.h>
+# include <arpa/inet.h>
+# include <errno.h>
+# include <unistd.h>
+# include <netdb.h>
+# include <fcntl.h>
 
+# include <iostream>
+# include <vector>
+# include <vector>
+# include <string>
+# include <exception>
 
-#include "ISocket.hpp"
-
-class	TCPSocket : public ISocket
+class	TcpSocket
 {
-	 # define BACKLOG 100
+	# define SOCKET int
+	# define BACKLOG 100
+	# define SOCKET int
+	# define IN_ADDR struct addrinfo
+	# define ISVALIDSOCKET(x) (x >= 0)
+	
 	/* ************************************************************************** */
 	private:
-		TCPSocket();
-		TCPSocket(const ISocket &obj);
-		TCPSocket &operator=(const ISocket &obj);
-		std::vector <SOCKET> ClientsAccpeted;
+		TcpSocket();
+		TcpSocket &operator=(const TcpSocket &obj);
+		std::vector <SOCKET> ClientsAccpeted; // I3adat Nadar1
 
 	public:
 	/* ******************************Constructor********************************** */
-		TCPSocket(const char* Ip, const char*  port);
-		~TCPSocket();
+		TcpSocket(const char* Ip, const char*  port);
+		TcpSocket(const TcpSocket &obj);
+		~TcpSocket();
 	
 	/* **********************************Method*********************************** */
 		void				createSocket();
@@ -37,7 +51,7 @@ class	TCPSocket : public ISocket
 		void				Listen();
 		void				Accept();
 		void				Close();
-		void				setToreuseAddr();
+		void				setSocketOption(int Flag);
 		void				setToLisner();
 		void				seToNonBlocking();
 	/* **********************************Getters*********************************** */
@@ -54,8 +68,53 @@ class	TCPSocket : public ISocket
 		bool				isListenerSocket() const;
 		bool				isBlocking() const;
 	
+	/* ********************************Attributes********************************* */
 	private:
-		bool	_isListening;
-};
+		bool		_isListening;
+		int			_bytesReceived;
+		int			_bytesSent;
+		bool		_isListener;
+		bool		_isBound;
+		bool		_isClosed;
+		bool		_isBlocking;
+		SOCKET		_Socket;
+		IN_ADDR*	_AddrToBind;
+		const char*	_Port;
+		const char*	_Ip;
+	/* ********************************Exception********************************** */
+	class	SocketExeption : public std::exception
+	{
+		char const * what();
+	};
+	class	BindException : public std::exception
+	{
+		char const * what();
+	};
 
+	class ConnectExeption : public std::exception
+	{
+		char const* what();
+	};
+
+	class ListenException : public std::exception
+	{
+		char const *what();
+	};
+
+	class AcceptExcption : public std::exception
+	{
+		char const *what();
+	};
+
+	class GeneralError : public std::exception // I3adata nadar2
+	{
+		private:
+			mutable std::string strError;
+		public:
+			GeneralError(std::string strError);
+			virtual const char* what() const throw();
+			virtual ~GeneralError() throw() {};
+	};
+};
+ 
 #endif
