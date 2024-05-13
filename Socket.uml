@@ -1,0 +1,13 @@
+Interface ITcpSocket
+
+ItcpSocket->TcpServer
+ItcpSocket->TcpClient
+
+
+Director : Just to Encapsulate the work and if demenad to director to build the server ::SetupServer
+or maybe ::SetupClient
+
+The server : 
+        - Call Director to setup virtual Hosts:
+        - Call Multiplex to Observe the Sockets
+        - Handle Read and Write (Request and CGI)
