@@ -22,8 +22,8 @@ TcpSocket::TcpSocket(const TcpSocket &obj){
 	_isBlocking = obj._isBlocking;
 	_bytesReceived = obj._bytesReceived;
 	_bytesSent = obj._bytesReceived;
-	_Port = obj._Port;
 	_Ip = obj._Ip;
+	_Port = obj._Port;
 	
 	if (std::atoi(_Port) < 1024 || std::atoi(_Port) > 65535)
 	{

@@ -25,6 +25,8 @@
 # include <vector>
 # include <string>
 # include <exception>
+# include <cstdlib>
+# include <cstring>
 
 class	TcpSocket
 {
@@ -36,11 +38,11 @@ class	TcpSocket
 	
 	/* ************************************************************************** */
 	private:
-		TcpSocket();
 		std::vector <SOCKET> ClientsAccpeted; // I3adat Nadar1
 
 	public:
 	/* ******************************Constructor********************************** */
+		TcpSocket();
 		TcpSocket(const char* Ip, const char*  port);
 		TcpSocket &operator=(const TcpSocket &obj);
 		TcpSocket(const TcpSocket &obj);
@@ -80,8 +82,8 @@ class	TcpSocket
 		bool		_isBlocking;
 		SOCKET		_Socket;
 		IN_ADDR*	_AddrToBind;
-		const char*	_Port;
 		const char*	_Ip;
+		const char*	_Port;
 	/* ********************************Exception********************************** */
 	class	SocketExeption : public std::exception
 	{

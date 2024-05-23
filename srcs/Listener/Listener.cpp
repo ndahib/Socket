@@ -12,6 +12,7 @@
 
 #include "Listener.hpp"
 
+TcpSocket Listener::_socket; // Defenition for static member
 Listener::Listener() {
 }
 
@@ -19,20 +20,25 @@ Listener::Listener() {
 Listener::~Listener(){
 	_socket.Close();
 }
+
 SOCKET Listener::SetupListener(TcpSocket &socket)
 {
-	_socket = _socket;
+	_socket = socket;
 	try{
 		_socket.setToLisner();
+		std::cout << "Setting to Listener" << std::endl;
 		_socket.createSocket();
-		_socket.seToNonBlocking();
-		_socket.setSocketOption(SO_REUSEADDR);
-		_socket.Bind();
-		_socket.Listen();
+		std::cout << "Creating SOcket" << std::endl;
+		// _socket.seToNonBlocking();
+		std::cout << "Setting to Non Blcoking" << std::endl;
+		// _socket.setSocketOption(SO_REUSEADDR);
+		std::cout << "Binding" << std::endl;
+		// _socket.Bind();
+		std::cout << "LIstening" << std::endl;
+		// _socket.Listen();
 	}catch(std::string &e){
 		std::cout << e << errno << std::endl;
 		_socket.Close();
-		return (-1);
 	}
 	return (_socket.Socket());
 }

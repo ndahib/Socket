@@ -11,26 +11,25 @@
 # **************************************************************************** #
 
 NAME		:= webserv
-ROOT		:= .
+
+# ******Directories********************************************************** #
+SRC_DIR		:= srcs
+OBJ_DIR		:= build
+INC_DIR		:= $(shell find $(SRC_DIR) -type d)
+# ******Files**************************************************************** #
+
+AUXFILES	:= Readme.txt Makefile socket.yml
+SRCFILES	:= $(shell find $(SRC_DIR/*) -type f -name "*.cpp")
+HDRFILES	:= $(shell find $(SRC_DIR/*) -type f -name "*.hpp")
+OBJFILES	:= $(patsubst $(SRC_DIR/*)/%.cpp,$(OBJ_DIR)/%.o,$(SRCFILES))
+
 
 # ******Commands************************************************************* #
 
 RM			:= rm -rf
 CPP			:= c++
 CPPFLAGS	:= -Wall -Wextra -Werror -std=c++98
-INCLUDE		:= $(addprefix -I , $(SRC_DIR/*))
-
-
-# ******Directories********************************************************** #
-SRC_DIR		:= src
-OBJ_DIR		:= build
-# ******Files**************************************************************** #
-
-AUXFILES	:= Readme.txt Makefile webserv.yml
-SRCFILES	:= $(shell find $(ROOT) -type f -name "*.cpp")
-HDRFILES	:= $(shell find $(ROOT) -type f -name "*.hpp")
-OBJFILES	:= $(patsubst %.cpp,%.o,$(SRCFILES))
-
+INCLUDE		:= $(addprefix -I , $(INC_DIR))
 
 # ******Colors*************************************************************** #
 DEF			:= \033[3;39m
@@ -44,18 +43,17 @@ YELLOW		:= \033[3;93m
 
 # ******Rules**************************************************************** #
 all: $(NAME)
-	echo $(INCLUDE)
 
-Shell_env :
-	$(info $(NAME) $(origin NAME))
-	$(info $(shell printenv | grep NAME))
-	printf "$(GREEN) Testing ..." $<
+# Shell_env :
+# 	$(info $(NAME) $(origin NAME))
+# 	$(info $(shell printenv | grep NAME))
+# 	printf "$(GREEN) Testing ..." $<
 
 $(NAME): $(OBJFILES)
-	$(CPP) $(CFLAGS) $(INCLUDE) $(OBJFILES) -o $@
-	@printf "$(GREEN) [OK]	$(YELLOW)$@ is created !! $(DEF)\n"
+	$(CPP) $(CPPFLAGS) $(INCLUDE) $(OBJFILES) -o $@
+	@printf "$(GREEN) [OK]	$(YELLOW) Our Srbaay  is created !! $(DEF)\n"
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp 
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(HDRFILES)
 	mkdir -p $(dir $@)
 	$(CPP) $(CFLAGS) $(INCLUDE) -c $< -o $@
 	printf "$(GREEN) [OK]	$(PURPLE)Compiling ==> $(DEF)%5s\n" $<

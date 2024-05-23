@@ -16,11 +16,10 @@ int main(int ac, char **av)
 {
 	if (ac == 3)
 	{
-		SOCKET listener;
 		try
 		{	
 			TcpSocket ServerSocket(av[1], av[2]);
-			listener = Listener::SetupListener(ServerSocket);
+			std::cout << Listener::SetupListener(ServerSocket) << std::endl;
 		}
 		catch(std::exception &e)
 		{
