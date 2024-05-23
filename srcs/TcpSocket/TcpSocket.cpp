@@ -6,7 +6,7 @@
 /*   By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 13:11:53 by ndahib            #+#    #+#             */
-/*   Updated: 2024/05/12 13:10:26 by ndahib           ###   ########.fr       */
+/*   Updated: 2024/05/21 10:26:35 by ndahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ void	TcpSocket::Accept(){
 }
 
 void	TcpSocket::Close(){
-	close(_Socket);
+	if (_Socket != -1)
+		close(_Socket);
 }
 void	TcpSocket::setSocketOption(int Flag){
 	int reusaddr = 1;

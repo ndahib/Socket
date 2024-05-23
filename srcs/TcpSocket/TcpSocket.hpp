@@ -6,12 +6,13 @@
 /*   By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 11:34:31 by ndahib            #+#    #+#             */
-/*   Updated: 2024/05/12 13:09:41 by ndahib           ###   ########.fr       */
+/*   Updated: 2024/05/21 10:24:51 by ndahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TcpSocket_HPP
 #define TcpSocket_HPP
+
 # include <sys/socket.h>
 # include <arpa/inet.h>
 # include <errno.h>
@@ -36,12 +37,12 @@ class	TcpSocket
 	/* ************************************************************************** */
 	private:
 		TcpSocket();
-		TcpSocket &operator=(const TcpSocket &obj);
 		std::vector <SOCKET> ClientsAccpeted; // I3adat Nadar1
 
 	public:
 	/* ******************************Constructor********************************** */
 		TcpSocket(const char* Ip, const char*  port);
+		TcpSocket &operator=(const TcpSocket &obj);
 		TcpSocket(const TcpSocket &obj);
 		~TcpSocket();
 	

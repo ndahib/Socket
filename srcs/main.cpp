@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SocketDirector.hpp                                 :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/11 12:50:55 by ndahib            #+#    #+#             */
-/*   Updated: 2024/05/12 14:58:02 by ndahib           ###   ########.fr       */
+/*   Created: 2024/05/12 08:15:52 by ndahib            #+#    #+#             */
+/*   Updated: 2024/05/21 10:16:41 by ndahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SOCKETDIRECTOR_HPP
-#define SOCKETDIRECTOR_HPP
+#include "Listener.hpp"
 
-#include "TcpSocket.hpp"
-
-class SocketDirector
+int main(int ac, char **av)
 {
-	private:
-		TcpSocket _socketBuilder;
-	public:
-		SocketDirector(const TcpSocket &socketBuilder);
-		~SocketDirector();
-		SOCKET SetupClient();
-		SOCKET SetupServer(); 
-
+	if (ac == 3)
+	{
+		SOCKET listener;
+		try
+		{	
+			TcpSocket ServerSocket(av[1], av[2]);
+			listener = Listener::SetupListener(ServerSocket);
+		}
+		catch(std::exception &e)
+		{
+			std::cerr << e.what() << '\n';
+		}
 		
-		void	HandleServerConnection();
-		void	HandleClientConnection();
-};
-
-#endif /*SOCKETDIRECTOR_HPP*/
+		return (0);
+	}
+	return(1);
+}
