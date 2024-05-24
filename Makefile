@@ -44,11 +44,6 @@ YELLOW		:= \033[3;93m
 # ******Rules**************************************************************** #
 all: $(NAME)
 
-# Shell_env :
-# 	$(info $(NAME) $(origin NAME))
-# 	$(info $(shell printenv | grep NAME))
-# 	printf "$(GREEN) Testing ..." $<
-
 $(NAME): $(OBJFILES)
 	$(CPP) $(CPPFLAGS) $(INCLUDE) $(OBJFILES) -o $@
 	@printf "$(GREEN) [OK]	$(YELLOW) Our Srbaay  is created !! $(DEF)\n"
