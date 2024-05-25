@@ -5,23 +5,38 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 07:07:34 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/24 08:36:03 by codespace        ###   ########.fr       */
+/*   Created: 2024/05/25 10:46:32 by codespace         #+#    #+#             */
+/*   Updated: 2024/05/25 12:16:49 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Listener.hpp"
+#ifndef HTTPSERVER_HPP
+# define HTTPSERVER_HPP
+
+#include "websrv.hpp"
 
 class HttpServer
 {
-    // basing on configuration file we will know the number of socket that we will lunch
-    private:
-    public:
-        HttpServer();
-        HttpServer(const HttpServer &other);
-        HttpServer& operator=(const HttpServer &other);
-        ~HttpServer();
-
-        void    launchListeners();
-          
+	private:
+	/* ***Attributes*************************************************** */
+	
+	// ServerConfig _config; that have info aboutVirtualHost;
+	static HttpServer 			*_instance;
+	std::vector<VirtualHost> 	_virtualHosts;
+	/* ***Construction************************************************* */
+		
+		HttpServer(std::vector<VirtualHost> virtualHosts );
+		HttpServer(HttpServer const &copy) = delete;
+		HttpServer &operator=(HttpServer const &copy) = delete;
+		~HttpServer();
+	
+	/* ***Method******************************************************* */
+	public:
+		void 	run();
+		void 	stop();
+		void	log();
+		static HttpServer *getInstance();
+		void 	addVirtualHost(const VirtualHost &virtualHost);
 };
+
+#endif

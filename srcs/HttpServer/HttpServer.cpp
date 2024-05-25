@@ -5,38 +5,52 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 07:27:00 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/24 08:37:50 by codespace        ###   ########.fr       */
+/*   Created: 2024/05/25 10:58:40 by codespace         #+#    #+#             */
+/*   Updated: 2024/05/25 12:19:04 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "HttpServer.hpp"
 
-/* *****Constructors and Destructors**************************************** */
+/* ***Construction************************************************************ */
 
-HttpServer::HttpServer()
+static HttpServer *_instance;
+HttpServer::HttpServer(std::vector<VirtualHost> virtualHosts ) : _virtualHosts(virtualHosts)
 {
-	std::cout << "The server is up and running" << std::endl;	
+	_instance = this;
 }
+
 
 HttpServer::~HttpServer()
 {
-	std::cout << "The server is down" << std::endl;
+	delete _instance;
 }
 
-HttpServer::HttpServer(const HttpServer &other)
+/* ***Method*************************************************************** */
+HttpServer *HttpServer::getInstance()
 {
-	(void)other;
+	(void)_instance;
+	// if (_instance == NULL)
+	// 	_instance = new HttpServer();
+	return (_instance);
 }
 
-HttpServer& HttpServer::operator=(const HttpServer &other){(void)other;
-	return(*this);}
+void	HttpServer::run()
+{
+	//Run Server by listeneing and lunch the multiplex
+}
 
-/* *****Methods************************************************************* */
-void	HttpServer::launchListeners(){
-	for (int i = 0; i < 10; i++)
-	{
-		TcpSocket socket = TcpSocket("127.0.0.1", "8080");
-		Listener::SetupListener(socket);
-	}
+void	HttpServer::stop()
+{
+	// stop the loop of Multiplex
+}
+
+void 	HttpServer::log()
+{
+	// register inforamtion in file log
+}
+
+void	HttpServer::addVirtualHost(const VirtualHost& virtualHost)
+{
+	_virtualHosts.push_back(virtualHost);	
 }

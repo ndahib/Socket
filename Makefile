@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+         #
+#    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 15:15:44 by ndahib            #+#    #+#              #
-#    Updated: 2024/05/23 11:11:52 by ndahib           ###   ########.fr        #
+#    Updated: 2024/05/25 11:53:16 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ OBJFILES	:= $(patsubst $(SRC_DIR/*)/%.cpp,$(OBJ_DIR)/%.o,$(SRCFILES))
 
 RM			:= rm -rf
 CPP			:= c++
-CPPFLAGS	:= -Wall -Wextra -Werror -std=c++98
+CPPFLAGS	:= -Wall -Wextra -Werror
 INCLUDE		:= $(addprefix -I , $(INC_DIR))
 
 # ******Colors*************************************************************** #
