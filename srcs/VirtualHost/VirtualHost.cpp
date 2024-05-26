@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:19:33 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/25 09:44:00 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/26 09:18:27 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ VirtualHost::VirtualHost(const char *ip, const char *port) {
 }
 
 VirtualHost::~VirtualHost() {
-	std::cout << "VirtualHost destructor called" << std::endl;
 }
 
 /* *******Getters and Setters*********************************************** */
