@@ -1,0 +1,92 @@
+Interface ITcpSocket
+
+ItcpSocket->TcpServer
+ItcpSocket->TcpClient
+
+
+Director : Just to Encapsulate the work and if demenad to director to build the server ::SetupServer
+or maybe ::SetupClient
+
+The server : 
+        - Call Director to setup virtual Hosts:
+        - Call Multiplex to Observe the Sockets
+        - Handle Read and Write (Request and CGI)
+
+@startuml
+class TcpSocket {
+    - bool _isListening
+    - int _bytesReceived
+    - int _bytesSent
+    - bool _isListener
+    - bool _isBound
+    - bool _isClosed
+    - bool _isBlocking
+    - SOCKET _Socket
+    - IN_ADDR* _AddrToBind
+    - const char* _Port
+    - const char* _Ip
+    - std::vector<SOCKET> ClientsAccpeted
+
+    + TcpSocket(const char* Ip, const char* port)
+    + TcpSocket(const TcpSocket &obj)
+    + ~TcpSocket()
+    + void createSocket()
+    + void Bind()
+    + void Listen()
+    + void Accept()
+    + void Close()
+    + void setSocketOption(int Flag)
+    + void setToLisner()
+    + void seToNonBlocking()
+    + SOCKET Socket() const
+    + int getPort() const
+    + int getBufferSize() const
+    + bool isListener() const
+    + bool isBound() const
+    + bool isClosed() const
+    + bool isListening() const
+    + bool isListenerSocket() const
+    + bool isBlocking() const
+}
+
+class Listener {
+    + static SOCKET SetupListener(TcpSocket &socket)
+}
+
+
+exception SocketExeption {
+    + char const* what()
+}
+
+exception BindException {
+    + char const* what()
+}
+
+exception ConnectExeption {
+    + char const* what()
+}
+
+exception ListenException {
+    + char const* what()
+}
+
+exception AcceptExcption {
+    + char const* what()
+}
+
+exception GeneralError {
+    - mutable std::string strError
+    + GeneralError(std::string strError)
+    + virtual const char* what() const throw()
+    + virtual ~GeneralError() throw()
+}
+
+TcpSocket --> SocketExeption : Exception
+TcpSocket --> BindException : Exception
+TcpSocket --> ConnectExeption : Exception
+TcpSocket --> ListenException : Exception
+TcpSocket --> AcceptExcption : Exception
+TcpSocket --> GeneralError : Exception
+Listener --> TcpSocket : uses
+
+@enduml
