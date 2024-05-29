@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:56:03 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/26 11:26:35 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/28 09:54:03 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,16 @@ class SelectMultiplex : public IMultiplex
 {
 	/* ****Attributs********************************************************* */
 	private:
-		fd_set _readfds;
-		fd_set _writefds;
+		int		_maxfd;
+		fd_set	_readfds;
+		fd_set	_writefds;
+		fd_set 	_copy_readfds;
+		fd_set	_copy_writefds;
 	/* ****Method************************************************************* */
 	public:
 		SelectMultiplex();
 		~SelectMultiplex();
-		void	multiplex(long timeout);
+		int		multiplex(long timeout);
 		void	Register(EVENT_TYPE type, SOCKET socket);
 		void	Unregister(EVENT_TYPE type, SOCKET socket);
 		bool	isRegistered(EVENT_TYPE type, SOCKET socket);

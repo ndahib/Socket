@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:19:33 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/26 09:18:27 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/28 11:26:20 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 /* *******Constructors and Destructors************************************** */
 VirtualHost::VirtualHost(const char *ip, const char *port) {
-	// Here we can set default values
 	this->set_ip(ip);
 	this->set_port(port);
 	this->set_server_name("localhost");
@@ -43,27 +42,27 @@ void        VirtualHost::set_server_name(std::string server_name){
 }
 
 void        VirtualHost::set_client_max_body_size(long client_max_body_size){   
-	this->client_max_body_size = client_max_body_size;
+	this->_client_max_body_size = client_max_body_size;
 }
 
 void        VirtualHost::set_autoindex(bool autoindex){
-	this->autoindex = autoindex;
+	this->_autoindex = autoindex;
 }
 
 void        VirtualHost::set_root(std::string root){
-	this->root = root;
+	this->_root = root;
 }
 
 void        VirtualHost::set_index(std::string index){
-	this->index = index;
+	this->_index = index;
 }
 
 int         VirtualHost::get_client_max_body_size(){
-	return this->client_max_body_size;
+	return this->_client_max_body_size;
 }
 
 bool        VirtualHost::get_autoindex(){
-	return this->autoindex; 
+	return this->_autoindex; 
 }
 
 const char* VirtualHost::get_ip(){
@@ -79,11 +78,15 @@ std::string VirtualHost::get_server_name(){
 }
 
 std::string VirtualHost::get_root(){
-	return this->root;
+	return this->_root;
 }
 
 std::string VirtualHost::get_index(){
-	return this->index;
+	return this->_index;
+}
+
+SOCKET     VirtualHost::get_socket(){
+	return this->_socket;
 }
 
 /* *******Printer************************************************************* */
@@ -107,19 +110,15 @@ SOCKET		VirtualHost::SetupServer(){
 	TcpSocket socket = TcpSocket(this->get_ip(), this->get_port());
 	try{
 		socket.setToLisner();
-		std::cout << "Setting to Listener" << std::endl;
 		socket.createSocket();
-		std::cout << "Creating SOcket" << std::endl;
-		// socket.seToNonBlocking();
-		std::cout << "Setting to Non Blcoking" << std::endl;
-		// socket.setSocketOption(SO_REUSEADDR);
-		std::cout << "Binding" << std::endl;
-		// socket.Bind();
-		std::cout << "LIstening" << std::endl;
-		// socket.Listen();
+		socket.seToNonBlocking();
+		socket.setSocketOption(SO_REUSEADDR);
+		socket.Bind();
+		socket.Listen();
 	}catch(std::string &e){
 		std::cout << e << errno << std::endl;
 		socket.Close();
 	}
-	return (socket.Socket());
+	_socket = socket.Socket();
+	return (_socket);
 }

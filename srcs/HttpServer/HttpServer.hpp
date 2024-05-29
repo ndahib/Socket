@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:46:32 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/26 11:51:25 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/29 06:48:21 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "websrv.hpp"
 
+#define TIMEOUTS 3000
 
 class HttpServer
 {
@@ -41,6 +42,9 @@ class HttpServer
 		void				log();
 		void 				addVirtualHost(const VirtualHost &virtualHost);
 		static HttpServer*	getInstance(std::vector<VirtualHost>& virtualHosts);
+	private:
+		void				Read_Handler(SOCKET fd);
+		void				Write_Handler(SOCKET fd);
 };
 
 #endif
