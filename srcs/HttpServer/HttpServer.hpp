@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:46:32 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/29 06:48:21 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/29 10:31:51 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define HTTPSERVER_HPP
 
 #include "websrv.hpp"
+class VirtualHost;
 
 #define TIMEOUTS 3000
 
@@ -24,13 +25,16 @@ class HttpServer
 	
 		// ServerConfig _config; that have info aboutVirtualHost;
 		IMultiplex					*_multiplex;
-		static HttpServer			*_instance;
-		std::vector<VirtualHost> 	_virtualHosts;
+		IHandler					*_handler;
 		std::fstream				_log;
+		static HttpServer			*_instance;
+		std::map <SOCKET, Client>	_clients;
+		std::vector<VirtualHost > 	_virtualHosts;
+		
 		
 	/* ***Construction************************************************* */
 		
-		HttpServer(std::vector<VirtualHost>& virtualHosts );
+		HttpServer(std::vector<VirtualHost>	&virtualHosts );
 		HttpServer(HttpServer const &copy) = delete;
 		HttpServer &operator=(HttpServer const &copy) = delete;
 		~HttpServer();
@@ -41,10 +45,14 @@ class HttpServer
 		void 				stop();
 		void				log();
 		void 				addVirtualHost(const VirtualHost &virtualHost);
+		void				AddClient(SOCKET clientFd);
+		void				RemoveClient(SOCKET fd);
+		void				SetHandler(IHandler *handler);
+		VirtualHost			getVirtualHost(SOCKET fd) const;
+		IMultiplex*			getMultiplex() const ;
+		// static HttpServer*	getInstance();
+		
 		static HttpServer*	getInstance(std::vector<VirtualHost>& virtualHosts);
-	private:
-		void				Read_Handler(SOCKET fd);
-		void				Write_Handler(SOCKET fd);
 };
 
 #endif

@@ -6,9 +6,22 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 06:53:33 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/29 06:56:38 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/29 09:43:44 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Client.hpp"
 
+/* ***Construction*********************************************************** */
+
+Client::Client(SOCKET socket){
+	_socket = socket;
+}
+
+Client::~Client(){
+	close(_socket);
+}
+
+
+/* ***Method***************************************************************** */
+// To be Continued

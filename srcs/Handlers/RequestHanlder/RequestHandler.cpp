@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 07:22:35 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/29 08:24:07 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/29 10:33:57 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 /* ***Construction*********************************************************** */
 
-RequestHandler::RequestHandler(int fd) : IHandler(fd){
-	
+RequestHandler::RequestHandler(int fd) : _fd(fd){
+    _server = nullptr; // To be Changed
 }
 
 RequestHandler::~RequestHandler(){

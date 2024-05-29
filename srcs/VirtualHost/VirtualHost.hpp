@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 08:45:41 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/28 08:26:54 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/29 09:12:07 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ class VirtualHost
 		~VirtualHost();
 		/* *******Methods********************************************** */
 		SOCKET		SetupServer();
+		SOCKET		accept();
 		void		print();
 
 		/* *******Getters and Setters********************************** */
@@ -46,14 +47,14 @@ class VirtualHost
 		void			set_root(std::string root);
 		void			set_index(std::string index);
 	
-		int				get_client_max_body_size();
-		bool			get_autoindex();
-		SOCKET			get_socket();
-		const char*		get_ip();
-		const char*		get_port();
-		std::string		get_root();
-		std::string		get_index();
-		std::string		get_server_name();
+		int				get_client_max_body_size() const;
+		bool			get_autoindex() const;
+		SOCKET			get_socket() const ;
+		const char*		get_ip() const;
+		const char*		get_port() const;
+		std::string		get_root() const;
+		std::string		get_index() const ;
+		std::string		get_server_name() const;
 };
 
 #endif

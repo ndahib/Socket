@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:19:33 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/28 11:26:20 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/29 09:14:47 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,39 +53,39 @@ void        VirtualHost::set_root(std::string root){
 	this->_root = root;
 }
 
-void        VirtualHost::set_index(std::string index){
+void        VirtualHost::set_index(std::string index)  {
 	this->_index = index;
 }
 
-int         VirtualHost::get_client_max_body_size(){
+int         VirtualHost::get_client_max_body_size() const {
 	return this->_client_max_body_size;
 }
 
-bool        VirtualHost::get_autoindex(){
+bool        VirtualHost::get_autoindex() const {
 	return this->_autoindex; 
 }
 
-const char* VirtualHost::get_ip(){
+const char* VirtualHost::get_ip() const {
 	return this->_ip;
 }
 
-const char* VirtualHost::get_port(){
+const char* VirtualHost::get_port() const {
 	return this->_port;
 }
 
-std::string VirtualHost::get_server_name(){
+std::string VirtualHost::get_server_name() const {
 	return this->_server_name;
 }
 
-std::string VirtualHost::get_root(){
+std::string VirtualHost::get_root() const {
 	return this->_root;
 }
 
-std::string VirtualHost::get_index(){
+std::string VirtualHost::get_index() const {
 	return this->_index;
 }
 
-SOCKET     VirtualHost::get_socket(){
+SOCKET     VirtualHost::get_socket() const {
 	return this->_socket;
 }
 
@@ -122,3 +122,11 @@ SOCKET		VirtualHost::SetupServer(){
 	_socket = socket.Socket();
 	return (_socket);
 }
+
+SOCKET VirtualHost::accept() {
+	SOCKET NewAccpet = ::accept(_socket, NULL, NULL);
+	if (ISVALIDSOCKET(NewAccpet) == false)
+		throw(std::string("accept error : ") + strerror(errno));
+	return (NewAccpet);
+}
+	

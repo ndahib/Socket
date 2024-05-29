@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 07:22:35 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/29 08:18:31 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/29 10:27:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 /* ***Construction*********************************************************** */
 
-AcceptHandler::AcceptHandler(int fd) : IHandler(fd){
-	
+AcceptHandler::AcceptHandler(int fd)
+{
+	_fd = fd;
+	_server = nullptr;
 }
 
 AcceptHandler::~AcceptHandler(){
@@ -24,9 +26,11 @@ AcceptHandler::~AcceptHandler(){
 /* ***Method***************************************************************** */
 
 void AcceptHandler::handle(){
-	//  ACcpet client and add him to the pool
-	//  set to Non Blocking
-	// register him in multiplex 
-	// if error
-	// delete him 
+	// try{
+	// 	SOCKET newClientFd = _server->getVirtualHost(_fd).accept();
+	// 	_server->AddClient(newClientFd);
+	// 	_server->getMultiplex()->Register(READ, newClientFd);
+	// }catch(...){
+	// 	std::cerr << "Error AcceptHandler" << std::endl;
+	// }
 }

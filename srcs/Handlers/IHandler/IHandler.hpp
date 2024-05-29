@@ -13,17 +13,16 @@
 #ifndef IHandler_HPP
 # define IHandler_HPP
 
-#include "websrv.hpp"
+class HttpServer;
 class IHandler
 {
 	protected:
 	/* ***Attributes*************************************************** */
 		HttpServer		*_server;
-		SOCKET			_fd;
+		int				_fd;
 	public:
 	/* ***Construction************************************************* */
-		IHandler(int fd);
-		virtual ~IHandler();
+		virtual	 		~IHandler();
 	/* ***Method******************************************************* */
 		virtual void	handle() = 0;
 };

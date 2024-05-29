@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:58:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/29 08:12:14 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/29 09:31:10 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ HttpServer::HttpServer(std::vector<VirtualHost>& virtualHosts ) : _virtualHosts(
 	{
 		throw std::runtime_error("Multiplex Error");
 	}
+	_handler = NULL;
 	_instance = this;
 }
 
@@ -30,25 +31,11 @@ HttpServer::~HttpServer()
 {
 	delete _instance;
 	delete _multiplex;
+	if (_handler != NULL)
+		delete _handler;
 	_log.close();
 }
 
-/* ***Private:Methods*************************************************************** */
-void	HttpServer::Read_Handler(SOCKET fd)
-{
-	/*
-	if (isServer (fd) == true)
-		// Accept(fd);
-		// set to NonBlocking
-		// add client
-		// registrer in Multiplex;
-	else
-		// Read(fd)
-		// Parse the request
-		//if Parsed is Ok or is Finished
-		///register in Multiplex to write
-	*/
-}
 /* ***Method*************************************************************** */
 HttpServer *HttpServer::getInstance(std::vector<VirtualHost>& virtualHosts)
 {
@@ -56,7 +43,6 @@ HttpServer *HttpServer::getInstance(std::vector<VirtualHost>& virtualHosts)
 		_instance = new HttpServer(virtualHosts);
 	return (_instance);
 }
-
 
 void	HttpServer::run()
 {
@@ -71,11 +57,12 @@ void	HttpServer::run()
 		for (int i = 0; i < FD_SETSIZE; i++) 
 		{
 			if (_multiplex->isRegistered(READ, i)){
-				Read_Handler(i);
+				SetHandler(new AcceptHandler(i));
 			}
 			else if (_multiplex->isRegistered(WRITE, i)){
-				Write_Handler(i);
+				SetHandler(new ResponseHandler(i));
 			}
+			_handler->handle();
 		}
 	}
 }
@@ -95,7 +82,39 @@ void	HttpServer::log()
 	std::cout.rdbuf(_log.rdbuf());
 }
 
+
+
+/* ***Getters**************************************************************** */
+VirtualHost HttpServer::getVirtualHost(SOCKET fd) const {
+	for (size_t i = 0; i < _virtualHosts.size(); i++){
+		if (_virtualHosts[i].get_socket() == fd)
+			return (_virtualHosts[i]);
+	}
+	return (_virtualHosts[0]);
+}
+
+IMultiplex	*HttpServer::getMultiplex() const { 
+	return (_multiplex);
+}
+
+/* ***VirtualHostMethods*****************************************************	*/
 void	HttpServer::addVirtualHost(const VirtualHost& virtualHost)
 {
 	_virtualHosts.push_back(virtualHost);	
+}
+
+/* ***ClientsMethods********************************************************* */
+void	HttpServer::AddClient(SOCKET clientFd){
+	_clients[clientFd] = Client(clientFd);
+}
+
+void	HttpServer::RemoveClient(SOCKET fd){
+	_multiplex->Unregister(READ_WRITE, fd);
+	_clients.erase(fd);
+}
+
+
+void	HttpServer::SetHandler(IHandler *handler){
+	delete _handler;
+	_handler = handler;
 }
