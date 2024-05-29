@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 07:21:34 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/29 10:38:46 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/29 11:19:39 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 
 class AcceptHandler : public IHandler
 {
-    /* ***Construction************************************************* */
-    public:
-        AcceptHandler(int fd);
-        ~AcceptHandler();
-    
-    /* ***Construction************************************************* */
-        void handle();
+	/* ***Construction************************************************* */
+	public:
+		AcceptHandler(int fd);
+		~AcceptHandler();
+	
+	/* ***Construction************************************************* */
+		void handle();
 };
 #endif

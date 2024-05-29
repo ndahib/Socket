@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Response.hpp                                       :+:      :+:    :+:   */
+/*   ResponseHandler.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/29 08:18:55 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/29 08:22:35 by codespace        ###   ########.fr       */
+/*   Created: 2024/05/29 11:30:56 by codespace         #+#    #+#             */
+/*   Updated: 2024/05/29 11:31:08 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef ResponseHandler_HPP
 #define ResponseHandler_HPP

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 06:53:38 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/29 10:33:33 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/29 11:28:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ class Client
 		// Response		_response;
 	public:
 	/* ***Construction************************************************* */
-		Client();
+		Client() = default;
 		Client(SOCKET socket);
 		~Client();
 	/* ***Method******************************************************* */

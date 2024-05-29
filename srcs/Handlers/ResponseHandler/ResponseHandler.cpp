@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 07:22:35 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/29 10:36:08 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/29 11:31:12 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 /* ***Construction*********************************************************** */
 
-ResponseHandler::ResponseHandler(int fd) : _fd(fd)
+ResponseHandler::ResponseHandler(int fd)
 {
+	_fd = fd;
 	_server = nullptr;
 }
 

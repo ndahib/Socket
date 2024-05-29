@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:58:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/29 09:31:10 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/29 12:02:32 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ HttpServer::HttpServer(std::vector<VirtualHost>& virtualHosts ) : _virtualHosts(
 	{
 		throw std::runtime_error("Multiplex Error");
 	}
-	_handler = NULL;
+	// _handler = NULL;
 	_instance = this;
 }
 
@@ -31,8 +31,8 @@ HttpServer::~HttpServer()
 {
 	delete _instance;
 	delete _multiplex;
-	if (_handler != NULL)
-		delete _handler;
+	// if (_handler != NULL)
+		// delete _handler;
 	_log.close();
 }
 
