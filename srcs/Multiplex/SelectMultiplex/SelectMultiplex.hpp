@@ -6,14 +6,14 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:56:03 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/28 09:54:03 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/30 06:41:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SELECTMULTIPLEX_HPP
 #define SELECTMULTIPLEX_HPP
 
-#include "websrv.hpp"
+#include "IMultiplex.hpp"
 
 class SelectMultiplex : public IMultiplex
 {

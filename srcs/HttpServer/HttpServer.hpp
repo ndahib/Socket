@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:46:32 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/29 12:07:03 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/31 09:12:48 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include "websrv.hpp"
 
-#define TIMEOUTS 3000
+#define TIMEOUTS 5
 
 class HttpServer
 {
@@ -43,14 +43,15 @@ class HttpServer
 		void 				run();
 		void 				stop();
 		void				log();
-		void 				addVirtualHost(const VirtualHost &virtualHost);
-		void				AddClient(SOCKET clientFd);
 		void				RemoveClient(SOCKET fd);
+		void				AddClient(SOCKET clientFd);
 		void				SetHandler(IHandler *handler);
+		bool 				isVertualHostExist(SOCKET fd) const;
+		void 				addVirtualHost(const VirtualHost &virtualHost);
+		void				SetHandler(SOCKET fd, IMultiplex::EVENT_TYPE type);
 		VirtualHost			getVirtualHost(SOCKET fd) const;
 		IMultiplex*			getMultiplex() const ;
-		static HttpServer*	getInstance();
-		
+		// static HttpServer*	getInstance();
 		static HttpServer*	getInstance(std::vector<VirtualHost>& virtualHosts);
 };
 

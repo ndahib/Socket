@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 08:18:55 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/29 11:38:28 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/31 11:05:57 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 #define REQUESTHANDLER_HPP
 
 #include "IHandler.hpp"
+#include "websrv.hpp"
 class  RequestHandler : public IHandler
 {
+    #define BUFFER_SIZE 4096
     /* ***Construction************************************************* */
     public:
         RequestHandler(int fd);
@@ -25,4 +27,10 @@ class  RequestHandler : public IHandler
         void handle();
 };
 
+template <typename T>
+void print(T& t)
+{
+    for (typename T::const_iterator it = t.begin(); it != t.end(); ++it)
+        std::cout << *it;
+}
 #endif

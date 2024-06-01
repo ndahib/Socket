@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:58:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/29 12:02:32 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/31 11:10:05 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ HttpServer::HttpServer(std::vector<VirtualHost>& virtualHosts ) : _virtualHosts(
 	{
 		throw std::runtime_error("Multiplex Error");
 	}
-	// _handler = NULL;
+	_handler = NULL;
 	_instance = this;
 }
 
@@ -31,8 +31,8 @@ HttpServer::~HttpServer()
 {
 	delete _instance;
 	delete _multiplex;
-	// if (_handler != NULL)
-		// delete _handler;
+	if (_handler != NULL)
+		delete _handler;
 	_log.close();
 }
 
@@ -53,21 +53,21 @@ void	HttpServer::run()
 	}
 	while (true)
 	{
-		_multiplex->multiplex(TIMEOUTS);
-		for (int i = 0; i < FD_SETSIZE; i++) 
+		if (_multiplex->multiplex(TIMEOUTS) == -1)
+			exit(1);
+		for (int i = 0; i < 8; i++)
 		{
-			if (_multiplex->isRegistered(READ, i)){
-				SetHandler(new AcceptHandler(i));
+			if (_multiplex->isRegistered(READ, i) == true){
+				SetHandler(i, READ);
 			}
-			else if (_multiplex->isRegistered(WRITE, i)){
-				SetHandler(new ResponseHandler(i));
+			else if (_multiplex->isRegistered(WRITE, i) == true){
+				send(i, "HTTP/1.1 200 Ok\r\n\r\n", 25, 0);
+				RemoveClient(i);
+				// SetHandler(i, WRITE);
 			}
-			_handler->handle();
 		}
 	}
 }
-
-
 
 void	HttpServer::stop()
 {
@@ -93,28 +93,56 @@ VirtualHost HttpServer::getVirtualHost(SOCKET fd) const {
 	return (_virtualHosts[0]);
 }
 
+bool	HttpServer::isVertualHostExist(SOCKET fd) const {
+	for (size_t i = 0; i < _virtualHosts.size(); i++){
+		if(_virtualHosts[i].get_socket() == fd)
+			return	(true);
+	}
+	return (false);
+}
+
 IMultiplex	*HttpServer::getMultiplex() const { 
 	return (_multiplex);
 }
 
 /* ***VirtualHostMethods*****************************************************	*/
-void	HttpServer::addVirtualHost(const VirtualHost& virtualHost)
-{
+void	HttpServer::addVirtualHost(const VirtualHost& virtualHost){
 	_virtualHosts.push_back(virtualHost);	
 }
 
 /* ***ClientsMethods********************************************************* */
 void	HttpServer::AddClient(SOCKET clientFd){
-	_clients[clientFd] = Client(clientFd);
+	if (clientFd != -1)
+	{
+		_clients[clientFd] = Client(clientFd);
+		_multiplex->Register(READ, clientFd);
+	}
 }
 
 void	HttpServer::RemoveClient(SOCKET fd){
 	_multiplex->Unregister(READ_WRITE, fd);
 	_clients.erase(fd);
+	close(fd);
 }
 
 
 void	HttpServer::SetHandler(IHandler *handler){
-	delete _handler;
+	if (_handler != NULL)
+		delete _handler;
 	_handler = handler;
+	_handler->handle();
+}
+
+void	HttpServer::SetHandler(SOCKET fd, IMultiplex::EVENT_TYPE type){
+
+	switch (type){
+		case READ : {
+			if (isVertualHostExist(fd)){
+				SetHandler(new AcceptHandler(fd));
+				return ;	
+			}
+			SetHandler(new RequestHandler(fd)); break;
+		}
+		case WRITE: SetHandler(new ResponseHandler(fd)) ; break; 
+	}
 }

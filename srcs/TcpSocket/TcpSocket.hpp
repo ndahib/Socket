@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 11:34:31 by ndahib            #+#    #+#             */
-/*   Updated: 2024/05/25 09:36:15 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/30 07:11:22 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 
 # include <iostream>
 # include <vector>
-# include <vector>
 # include <string>
 # include <exception>
 # include <cstdlib>
@@ -32,13 +31,10 @@ class	TcpSocket
 {
 	# define SOCKET int
 	# define BACKLOG 100
-	# define SOCKET int
 	# define IN_ADDR struct addrinfo
 	# define ISVALIDSOCKET(x) (x >= 0)
 	
 	/* ************************************************************************** */
-	private:
-		std::vector <SOCKET> ClientsAccpeted; // I3adat Nadar1
 
 	public:
 	/* ******************************Constructor********************************** */
@@ -52,7 +48,7 @@ class	TcpSocket
 		void				createSocket();
 		void				Bind();
 		void				Listen();
-		void				Accept();
+		// void				Accept();
 		void				Close();
 		void				setSocketOption(int Flag);
 		void				setToLisner();

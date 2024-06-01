@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:59:16 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/28 11:25:55 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/31 11:09:01 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	SelectMultiplex::multiplex(long timeout) {
 	
 	_copy_readfds = _readfds;
 	_copy_writefds = _writefds;
-	return (select(1024, &_copy_readfds, &_copy_writefds, NULL, &tv));
+	return (select(_maxfd + 1, &_copy_readfds, &_copy_writefds, NULL, &tv));
 }
 
 void SelectMultiplex::Register(EVENT_TYPE type, SOCKET socket) {
@@ -68,7 +68,7 @@ void	SelectMultiplex::Unregister(EVENT_TYPE type, SOCKET socket) {
 	};
 }
 
-bool	SelectMultiplex::isRegistered(EVENT_TYPE type, SOCKET socket) {
+bool	SelectMultiplex::isRegistered(EVENT_TYPE type, SOCKET socket) {	
 	switch (type)
 	{
 		case READ:

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:19:33 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/29 09:14:47 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/31 11:14:39 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ SOCKET		VirtualHost::SetupServer(){
 		socket.setSocketOption(SO_REUSEADDR);
 		socket.Bind();
 		socket.Listen();
-	}catch(std::string &e){
-		std::cout << e << errno << std::endl;
+	}catch(std::exception &e){
+		std::cout << e.what() << errno << std::endl;
 		socket.Close();
 	}
 	_socket = socket.Socket();
@@ -126,7 +126,7 @@ SOCKET		VirtualHost::SetupServer(){
 SOCKET VirtualHost::accept() {
 	SOCKET NewAccpet = ::accept(_socket, NULL, NULL);
 	if (ISVALIDSOCKET(NewAccpet) == false)
-		throw(std::string("accept error : ") + strerror(errno));
+		throw(std::string("accept error : ") + strerror(errno) + std::string(" ") + std::to_string(_socket));
 	return (NewAccpet);
 }
 	

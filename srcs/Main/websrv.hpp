@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:20:44 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/29 12:05:27 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/30 06:58:03 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,19 @@
 
 
 /* ***Includes************************************************************** */
-#include <iostream>
-#include <string>
-#include <vector>
-#include <map>
-#include <algorithm>
-#include <utility>
-#include <unistd.h>
-#include <fstream>
+
+# include <map>
+# include <utility>
+# include <fstream>
+# include <algorithm>
 
 
-# include "TcpSocket.hpp"
 # include "Client.hpp"
-# include "IMultiplex.hpp"
 # include "SelectMultiplex.hpp"
 # include "VirtualHost.hpp"
-# include "ResponseHandler.cpp"
+# include "ResponseHandler.hpp"
 # include "AcceptHandler.hpp"
-# include "RequestHandler.cpp"
+# include "RequestHandler.hpp"
 # include "HttpServer.hpp"
 
 #endif

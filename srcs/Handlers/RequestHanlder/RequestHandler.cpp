@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 07:22:35 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/29 11:21:13 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/31 07:22:24 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,51 @@
 
 RequestHandler::RequestHandler(int fd){
 	_fd = fd;
-	_server = nullptr; // To be Changed
+	VirtualHost		server1 = VirtualHost("127.0.0.1", "8000");
+	VirtualHost		server2 = VirtualHost("127.0.0.1", "8001");
+	VirtualHost		server3 = VirtualHost("127.0.0.1", "8002");
+
+	std::vector<VirtualHost> virtualHosts = {server1, server2, server3};
+	_server = HttpServer::getInstance(virtualHosts);
 }
 
 RequestHandler::~RequestHandler(){
 }
 
 /* ***Method***************************************************************** */
-
-void RequestHandler::handle(){
-	// Read the buffer send by the client
-	// Parse the request
-	// if Parsed is Ok or is Finished
-	// register in Multiplex to write 
-	// if error
-	// delete him
+void copyBuffer(std::vector<char>& destination, const char* source, int size)
+{
+	destination.assign(source, source + size);
 }
+
+#include <iostream>
+void RequestHandler::handle()
+{
+	std::vector<char> buffer;
+	char receiveBuffer[BUFFER_SIZE];
+
+	buffer.clear();
+	memset(receiveBuffer, '\0', BUFFER_SIZE);
+
+	int bytesReceived = recv(_fd, receiveBuffer, BUFFER_SIZE, 0);
+	if (bytesReceived <= 0)
+	{
+		if (bytesReceived == 0)
+		{
+			std::cout << "Client disconnected: " << _fd << std::endl;
+		}
+		std::cout << "error Occured while reading " << std::endl;
+		_server->RemoveClient(_fd);
+		return;
+	}
+
+	copyBuffer(buffer, receiveBuffer, bytesReceived);
+	::print(buffer);
+	// RequestParser(buffer)
+	// if (_server->getClient(_fd).isRequestComplete(buffer))
+	// {
+		_server->getMultiplex()->Unregister(READ, _fd);
+		_server->getMultiplex()->Register(WRITE,_fd);
+	// }
+}
+

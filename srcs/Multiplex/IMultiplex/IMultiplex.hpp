@@ -6,13 +6,14 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 09:56:31 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/28 08:37:31 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/30 06:42:47 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef IMULTIPLEX_HPP
 # define IMULTIPLEX_HPP
 
+#include "TcpSocket.hpp"
 class	IMultiplex
 {
 	#define READ 0

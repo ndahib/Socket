@@ -6,14 +6,15 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 08:45:41 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/29 09:12:07 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/30 06:32:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VIRTUALHOST_HPP
 # define VIRTUALHOST_HPP
 
-#include "websrv.hpp"
+/* Includes ***************************************************************** */
+#include "TcpSocket.hpp"
 class VirtualHost
 {
 	private:

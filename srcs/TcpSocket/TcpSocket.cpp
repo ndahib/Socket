@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 13:11:53 by ndahib            #+#    #+#             */
-/*   Updated: 2024/05/25 09:36:53 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/31 11:15:15 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,12 @@ void	TcpSocket::Listen(){
 	_isListening = true;
 }
 
-void	TcpSocket::Accept(){
-	int newfd = accept(_Socket , NULL, NULL);
-	if (newfd == -1)
-		throw (TcpSocket::AcceptExcption());
-	ClientsAccpeted.push_back(newfd);
-}
+// void	TcpSocket::Accept(){
+// 	int newfd = accept(_Socket , NULL, NULL);
+// 	if (newfd == -1)
+// 		throw (TcpSocket::AcceptExcption());
+// 	ClientsAccpeted.push_back(newfd);
+// }
 
 void	TcpSocket::Close(){
 	if (_Socket != -1)

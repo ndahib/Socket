@@ -22,7 +22,7 @@ class IHandler
 		int				_fd;
 	public:
 	/* ***Construction************************************************* */
-		virtual	 		~IHandler();
+		virtual	 		~IHandler() = 0;
 	/* ***Method******************************************************* */
 		virtual void	handle() = 0;
 };

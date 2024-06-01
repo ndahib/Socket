@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 06:53:33 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/29 09:43:44 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/31 11:01:17 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ Client::Client(SOCKET socket){
 }
 
 Client::~Client(){
-	close(_socket);
 }
 
 
