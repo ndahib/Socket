@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 06:53:38 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/30 06:34:38 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/01 11:33:16 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define Client_HPP
 
 #include "TcpSocket.hpp"
+#include "Request.hpp"
 
 
 class Client
@@ -21,14 +22,19 @@ class Client
 	private:
 	/* ***Attributes*************************************************** */
 		SOCKET			_socket;
-		// Request			_request;
-		// Response		_response;
+		Request			_request;
 	public:
 	/* ***Construction************************************************* */
-		Client() = default;
+		Client();
 		Client(SOCKET socket);
 		~Client();
 	/* ***Method******************************************************* */
+		void			parseRequest(std::vector<char> &buffer);
+		void			printRerquest();
+		bool			isRequestCompleted() const;
+		void			setRequest(Request &newRequest);
+		SOCKET			getSocket() const;
+		Request			getRequest() const;
 };
 
 #endif

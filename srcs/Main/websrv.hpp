@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:20:44 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/30 06:58:03 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/01 10:31:22 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,15 @@
 /* ***Includes************************************************************** */
 
 # include <map>
+# include <vector>
 # include <utility>
 # include <fstream>
+# include <sstream>
 # include <algorithm>
 
 
 # include "Client.hpp"
+# include "Request.hpp"
 # include "SelectMultiplex.hpp"
 # include "VirtualHost.hpp"
 # include "ResponseHandler.hpp"

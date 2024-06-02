@@ -6,11 +6,18 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:58:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/31 11:10:05 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/01 11:32:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "HttpServer.hpp"
+
+const char response1[] = "HTTP/1.1 200 OK\r\n"
+                      "Content-Type: text/html\r\n"
+                      "Content-Length: 70\r\n"
+                      "\r\n"
+                      "<html><head><title>My First HTTP Response</title></head>"
+                      "<body><h1>Hello, World!</h1></body></html>";
 
 /* ***Construction************************************************************ */
 
@@ -51,18 +58,20 @@ void	HttpServer::run()
 			_multiplex->Register(READ, _virtualHosts[i].get_socket());
 		}
 	}
+
 	while (true)
 	{
 		if (_multiplex->multiplex(TIMEOUTS) == -1)
-			exit(1);
+			continue;
 		for (int i = 0; i < 8; i++)
 		{
 			if (_multiplex->isRegistered(READ, i) == true){
 				SetHandler(i, READ);
 			}
 			else if (_multiplex->isRegistered(WRITE, i) == true){
-				send(i, "HTTP/1.1 200 Ok\r\n\r\n", 25, 0);
+				send(i, response1 , 163, 0);
 				RemoveClient(i);
+				std::cout << "Sending Response to Client" << std::endl;
 				// SetHandler(i, WRITE);
 			}
 		}
@@ -117,6 +126,11 @@ void	HttpServer::AddClient(SOCKET clientFd){
 		_clients[clientFd] = Client(clientFd);
 		_multiplex->Register(READ, clientFd);
 	}
+}
+
+
+Client	&HttpServer::getClient(SOCKET clientFd) {
+	return (_clients[clientFd]);
 }
 
 void	HttpServer::RemoveClient(SOCKET fd){

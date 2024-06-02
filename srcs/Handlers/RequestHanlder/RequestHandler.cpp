@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 07:22:35 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/31 07:22:24 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/01 11:30:41 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ void RequestHandler::handle()
 	buffer.clear();
 	memset(receiveBuffer, '\0', BUFFER_SIZE);
 
-	int bytesReceived = recv(_fd, receiveBuffer, BUFFER_SIZE, 0);
+	int bytesReceived = recv(_server->getClient(_fd).getSocket(), receiveBuffer, BUFFER_SIZE, 0);
 	if (bytesReceived <= 0)
 	{
 		if (bytesReceived == 0)
 		{
-			std::cout << "Client disconnected: " << _fd << std::endl;
+			std::cout << "_server->getClient(_fd) disconnected: " << _fd << std::endl;
 		}
 		std::cout << "error Occured while reading " << std::endl;
 		_server->RemoveClient(_fd);
@@ -55,12 +55,14 @@ void RequestHandler::handle()
 	}
 
 	copyBuffer(buffer, receiveBuffer, bytesReceived);
-	::print(buffer);
-	// RequestParser(buffer)
-	// if (_server->getClient(_fd).isRequestComplete(buffer))
-	// {
-		_server->getMultiplex()->Unregister(READ, _fd);
-		_server->getMultiplex()->Register(WRITE,_fd);
-	// }
+	_server->getClient(_fd).printRerquest();
+	_server->getClient(_fd).parseRequest(buffer);
+	if (_server->getClient(_fd).isRequestCompleted() == true)
+	{
+		_server->getClient(_fd).printRerquest();
+		std::cout << "Enter here to test if Complete" << std::endl;
+		_server->getMultiplex()->Unregister(READ, _server->getClient(_fd).getSocket());
+		_server->getMultiplex()->Register(WRITE,_server->getClient(_fd).getSocket());
+	}
 }
 
