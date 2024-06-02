@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 06:55:11 by codespace         #+#    #+#             */
-/*   Updated: 2024/06/01 11:40:08 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/02 06:35:53 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	toLower(std::string &key)
 		if (std::isdigit(key[i]) || (key[i] != '-' && !std::isalpha(key[i])))
 		{
 			std::cout << "400 Bad Request : " << key <<std::endl;
+			std::cout << "Enter Here" << std::endl;
 			throw (400);
 		}
 		key[i] = std::tolower(key[i]);
@@ -251,7 +252,7 @@ void	Request::parse_path()
 
 void	Request::parseRequestLine()
 {
-	std::cout << index << std::endl;
+	std::cout << "Index  IN request line : " << index << std::endl;
 	if ( index != 0 || lines[ index ] == "\r\n" )
 		return ;
 	std::vector<std::string> tokens = split(lines[index]);
@@ -278,10 +279,7 @@ void	Request::parseHeader()
 	size_t		found_del;
 
 	std::cout << "index : " << index << std::endl;
-	exit(1);
-	if ( index == 0)
-		return;
-	if (lines.empty() == false && lines[index] == "\r\n")
+	if (index == 0 || lines[index] == "\r\n")
 		return ;
 	found_del = lines[index].find(':');
 	key = lines[index].substr(0, found_del);
@@ -481,7 +479,7 @@ void Request::setup( std::vector<char> & newBuffer )
 	catch ( int & e )
 	{
 		statusCode = e;
-		std::cout << statusCode << std::endl;
+		std::cout << "Status Code : " << statusCode << std::endl;
 		isComplete = true;
 	};
 }

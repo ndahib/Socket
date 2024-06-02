@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:19:33 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/31 11:14:39 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/02 09:25:25 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 
 /* *******Constructors and Destructors************************************** */
-VirtualHost::VirtualHost(const char *ip, const char *port) {
-	this->set_ip(ip);
-	this->set_port(port);
+VirtualHost::VirtualHost(const t_listen &listen) {
+	_listen = listen;
+	// this->set_ip((_listen.Ip).to_string());
+	// this->set_port(_listen.Port);
 	this->set_server_name("localhost");
 	this->set_client_max_body_size(1000000);
 	this->set_autoindex(false);

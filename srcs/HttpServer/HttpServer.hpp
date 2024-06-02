@@ -6,15 +6,16 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:46:32 by codespace         #+#    #+#             */
-/*   Updated: 2024/06/01 11:21:50 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/02 10:08:04 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HTTPSERVER_HPP
 # define HTTPSERVER_HPP
 
-#include "websrv.hpp"
+#include "Config.hpp"
 #include "Client.hpp"
+#include "VirtualHost.hpp"
 
 #define TIMEOUTS 5
 
@@ -24,8 +25,9 @@ class HttpServer
 	/* ***Attributes*************************************************** */
 	
 		// ServerConfig _config; that have info aboutVirtualHost;
-		IMultiplex					*_multiplex;
+		Config 						_config;
 		IHandler					*_handler;
+		IMultiplex					*_multiplex;
 		std::fstream				_log;
 		static HttpServer			*_instance;
 		std::map <SOCKET, Client>	_clients;
@@ -34,13 +36,14 @@ class HttpServer
 		
 	/* ***Construction************************************************* */
 		
-		HttpServer(std::vector<VirtualHost>	&virtualHosts );
+		HttpServer();
 		HttpServer(HttpServer const &copy) = delete;
 		HttpServer &operator=(HttpServer const &copy) = delete;
-		~HttpServer();
 	
 	/* ***Method******************************************************* */
 	public:
+		void 				readConfig(const char *config_file);
+		void				setup();
 		void 				run();
 		void 				stop();
 		void				log();
@@ -53,8 +56,9 @@ class HttpServer
 		Client&				getClient(SOCKET clientFd);
 		VirtualHost			getVirtualHost(SOCKET fd) const;
 		IMultiplex*			getMultiplex() const ;
-		// static HttpServer*	getInstance();
-		static HttpServer*	getInstance(std::vector<VirtualHost>& virtualHosts);
+		static HttpServer*	getInstance();
+	/* ***Destructor*************************************************** */
+		~HttpServer();
 };
 
 #endif

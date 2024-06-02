@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 06:53:33 by codespace         #+#    #+#             */
-/*   Updated: 2024/06/02 06:21:57 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/02 06:37:37 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ Client::Client()
 Client::~Client(){
 	// Maybe add something here
 	// close(_socket);
-	// clear request
+	_request.clear();
 	std::cout << "Destructor Client" << std::endl;
 }
 
@@ -52,4 +52,3 @@ SOCKET	Client::getSocket() const{
 Request	Client::getRequest() const{
 	return (_request);
 }
-

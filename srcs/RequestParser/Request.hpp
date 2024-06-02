@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 06:51:39 by codespace         #+#    #+#             */
-/*   Updated: 2024/06/01 10:32:41 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/02 10:05:17 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <vector>
 #include <sstream>
 #include <map>
+#include <list>
 class	Request
 {
 	/* ***********************************Methods************************ */		
@@ -51,6 +52,8 @@ class	Request
 		std::string			get_method() const;
 		int					get_statusCode() const;
 		std::vector< char >	get_body() const;
+		const std::map<std::string, std::string>&			getEnv() const;
+		const std::list<std::pair<std::string, float> >&	getLang() const;
 		
 
 	/* *******************************Attributes************************ */

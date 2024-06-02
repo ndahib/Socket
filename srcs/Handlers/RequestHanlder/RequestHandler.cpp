@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 07:22:35 by codespace         #+#    #+#             */
-/*   Updated: 2024/06/01 11:30:41 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/02 09:20:04 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,7 @@
 
 RequestHandler::RequestHandler(int fd){
 	_fd = fd;
-	VirtualHost		server1 = VirtualHost("127.0.0.1", "8000");
-	VirtualHost		server2 = VirtualHost("127.0.0.1", "8001");
-	VirtualHost		server3 = VirtualHost("127.0.0.1", "8002");
-
-	std::vector<VirtualHost> virtualHosts = {server1, server2, server3};
-	_server = HttpServer::getInstance(virtualHosts);
+	_server = HttpServer::getInstance();
 }
 
 RequestHandler::~RequestHandler(){
@@ -55,8 +50,8 @@ void RequestHandler::handle()
 	}
 
 	copyBuffer(buffer, receiveBuffer, bytesReceived);
-	_server->getClient(_fd).printRerquest();
 	_server->getClient(_fd).parseRequest(buffer);
+	_server->getClient(_fd).printRerquest();
 	if (_server->getClient(_fd).isRequestCompleted() == true)
 	{
 		_server->getClient(_fd).printRerquest();

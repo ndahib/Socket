@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 08:45:41 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/30 06:32:38 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/02 08:39:21 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 /* Includes ***************************************************************** */
 #include "TcpSocket.hpp"
+#include "ConfigDataStructures.hpp"
 class VirtualHost
 {
 	private:
@@ -24,6 +25,7 @@ class VirtualHost
 		SOCKET			_socket;
 		const char*		_ip;
 		const char*		_port;
+		t_listen		_listen;
 		std::string 	_root;
 		std::string		_index;
 		std::string		_server_name;
@@ -31,7 +33,7 @@ class VirtualHost
 
 	public:
 		/* *******Constructors and Destructors************************* */
-		VirtualHost(const char *ip, const char *port);
+		VirtualHost(const t_listen &listen);
 		~VirtualHost();
 		/* *******Methods********************************************** */
 		SOCKET		SetupServer();

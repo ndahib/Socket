@@ -6,24 +6,26 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 08:15:52 by ndahib            #+#    #+#             */
-/*   Updated: 2024/05/31 06:48:09 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/02 09:19:17 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "HttpServer.hpp"
 
-int main()
+int main(int ac , char **av)
 {
-	VirtualHost		server1 = VirtualHost("127.0.0.1", "8000");
-	VirtualHost		server2 = VirtualHost("127.0.0.1", "8001");
-	VirtualHost		server3 = VirtualHost("127.0.0.1", "8002");
-
-	std::vector<VirtualHost> virtualHosts = {server1, server2, server3};
-	HttpServer *PtrServer = HttpServer::getInstance(virtualHosts);
-	std::cout << GREEN << "Server is Running" << END << std::endl;
-	// std::cout << "Server access log and error at /workspaces/Socket/Server.log" << std::endl;
-	// PtrServer->log();
-
-	PtrServer->run();
+	HttpServer *PtrServer = HttpServer::getInstance();
+	try{
+		// std::cout << "Server access log and error at /workspaces/Socket/Server.log" << std::endl;
+		// PtrServer->log();
+		PtrServer->readConfig(av[1]);
+		PtrServer->setup();
+		std::cout << GREEN << "Server is Running" << END << std::endl;
+		PtrServer->run();
+	}catch(...)
+	{
+		delete PtrServer;
+	};
+	return (0);
 }
 
