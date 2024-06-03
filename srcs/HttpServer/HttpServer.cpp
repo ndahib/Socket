@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:58:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/06/03 09:07:50 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/03 09:46:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ HttpServer *HttpServer::getInstance()
 
 void	HttpServer::readConfig(const char *config_file)
 {
+	(void)config_file;
 	// _config.parse(config_file);
 }
 

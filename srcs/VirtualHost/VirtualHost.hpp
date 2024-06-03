@@ -6,12 +6,19 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 08:45:41 by codespace         #+#    #+#             */
-/*   Updated: 2024/06/03 09:09:02 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/03 09:41:13 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VIRTUALHOST_HPP
 # define VIRTUALHOST_HPP
+
+// create t-listen struct
+typedef struct s_listen
+{
+	int Ip;
+	int Port;
+}	t_listen;
 
 /* Includes ***************************************************************** */
 #include "TcpSocket.hpp"
