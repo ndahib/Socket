@@ -6,16 +6,22 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:46:32 by codespace         #+#    #+#             */
-/*   Updated: 2024/06/02 10:08:04 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/03 09:07:56 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HTTPSERVER_HPP
 # define HTTPSERVER_HPP
 
-#include "Config.hpp"
 #include "Client.hpp"
 #include "VirtualHost.hpp"
+# include "TcpSocket.hpp"
+# include "IMultiplex.hpp"
+# include "IHandler.hpp"
+#include "AcceptHandler.hpp"
+# include "RequestHandler.hpp"
+# include "ResponseHandler.hpp"
+# include "SelectMultiplex.hpp"
 
 #define TIMEOUTS 5
 
@@ -25,7 +31,7 @@ class HttpServer
 	/* ***Attributes*************************************************** */
 	
 		// ServerConfig _config; that have info aboutVirtualHost;
-		Config 						_config;
+		// Config 						_config;
 		IHandler					*_handler;
 		IMultiplex					*_multiplex;
 		std::fstream				_log;

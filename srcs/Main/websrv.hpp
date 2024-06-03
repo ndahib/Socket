@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:20:44 by codespace         #+#    #+#             */
-/*   Updated: 2024/06/02 10:08:40 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/03 07:05:50 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 
 
 // CPP Includes
+# include <exception>
 # include <iostream>
 # include <iomanip>
 # include <sstream>
@@ -39,6 +40,8 @@
 # include <string>
 # include <limits>
 # include <cstdio>
+# include <cstdlib>
+# include <cstring>
 
 // CPP Containers
 # include <map>
@@ -68,20 +71,11 @@
 # include <sys/time.h>
 
 // C Network
+# include <netdb.h>
 # include <sys/socket.h>
 # include <sys/select.h>
 # include <arpa/inet.h>
 # include <netinet/in.h>
-
-# include "Config.hpp"
-# include "Client.hpp"
-# include "Request.hpp"
-# include "SelectMultiplex.hpp"
-# include "VirtualHost.hpp"
-# include "ResponseHandler.hpp"
-# include "AcceptHandler.hpp"
-# include "RequestHandler.hpp"
-# include "HttpServer.hpp"
 
 // Define two names ntoh functions
 # define ft_htonl ft_ntohl
@@ -98,11 +92,6 @@
 # define CGI_BUFSIZE 65536
 # define DEFAULT_CONFIG "./srcs/config/files/default.conf"
 
-// C libft
-extern "C" {
-#include "libft.h"
-}
-
 // Output
 # ifndef OUT
 #  define OUT 1
@@ -116,7 +105,7 @@ std::string					readKey(const std::string& line);
 std::string					readValue(char *line); //Deprecated
 std::string					readValue(const std::string& line);
 std::string&				strip(std::string& str, char c);
-std::vector<std::string>	split(const std::string& str, char c);
+std::vector<std::string>	split1(const std::string& str, char c);
 std::string&				to_lower(std::string& str);
 std::string&				to_upper(std::string& str);
 std::string&				capitalize(std::string& str);

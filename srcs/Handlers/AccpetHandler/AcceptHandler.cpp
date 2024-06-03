@@ -6,11 +6,14 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 07:22:35 by codespace         #+#    #+#             */
-/*   Updated: 2024/06/02 09:19:49 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/03 06:46:27 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "AcceptHandler.hpp"
+#include "HttpServer.hpp"
+#include "IMultiplex.hpp"
+
 #include "websrv.hpp"
 
 /* ***Construction*********************************************************** */

@@ -6,7 +6,7 @@
 #    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 15:15:44 by ndahib            #+#    #+#              #
-#    Updated: 2024/06/02 10:07:31 by codespace        ###   ########.fr        #
+#    Updated: 2024/06/03 07:05:34 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ OBJFILES	:= $(patsubst $(SRC_DIR/*)/%.cpp,$(OBJ_DIR)/%.o,$(SRCFILES))
 
 RM			:= rm -rf
 CPP			:= c++
-# CPPFLAGS	:= -Wall -Wextra -Werror -g -fsanitize=address
+CPPFLAGS	:= -Wall -Wextra -Werror -g -fsanitize=address
 INCLUDE		:= $(addprefix -I , $(INC_DIR))
 
 # ******Colors*************************************************************** #

@@ -6,13 +6,13 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 06:55:11 by codespace         #+#    #+#             */
-/*   Updated: 2024/06/02 06:35:53 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/03 07:02:51 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "websrv.hpp"
+#include "Request.hpp"
 
-std::vector<std::string> split(const std::string& str, char c) {
+std::vector<std::string> split2(const std::string& str, char c) {
 	std::vector<std::string> result;
 	std::string currentWord;
 	bool inWord = false;
@@ -37,7 +37,7 @@ std::vector<std::string> split(const std::string& str, char c) {
 	return result;
 }
 
-std::vector<std::string> split( const std::string str )
+std::vector<std::string> split2( const std::string str )
 {
 	std::stringstream			ss;
 	std::string					tmp;
@@ -255,7 +255,7 @@ void	Request::parseRequestLine()
 	std::cout << "Index  IN request line : " << index << std::endl;
 	if ( index != 0 || lines[ index ] == "\r\n" )
 		return ;
-	std::vector<std::string> tokens = split(lines[index]);
+	std::vector<std::string> tokens = split2(lines[index]);
 	
 	if (tokens.size() < 3 || tokens[0].empty() || tokens[1].empty() || tokens[2].empty()) 
 	{

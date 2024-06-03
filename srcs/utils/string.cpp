@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 18:58:08 by cclaude           #+#    #+#             */
-/*   Updated: 2024/06/02 10:01:03 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/03 07:06:58 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int								checkEnd(const std::string& str, const std::string& end)
 	{
 		i--;
 		j--;
-		if (i < 0 || str[i] != end[j])
+		if (i <= 0 || str[i] != end[j])
 			return (1);
 	}
 	return (0);
@@ -101,7 +101,7 @@ std::string						readValue(const std::string& line)
 	return (strip(ret, ' '));
 }
 
-std::vector<std::string>		split(const std::string& str, char c)
+std::vector<std::string>		split1(const std::string& str, char c)
 {
 	std::vector<std::string> tokens;
 	std::string token;

@@ -6,26 +6,14 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 11:34:31 by ndahib            #+#    #+#             */
-/*   Updated: 2024/05/30 07:11:22 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/03 06:54:12 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TcpSocket_HPP
 #define TcpSocket_HPP
 
-# include <sys/socket.h>
-# include <arpa/inet.h>
-# include <errno.h>
-# include <unistd.h>
-# include <netdb.h>
-# include <fcntl.h>
-
-# include <iostream>
-# include <vector>
-# include <string>
-# include <exception>
-# include <cstdlib>
-# include <cstring>
+# include "websrv.hpp"
 
 class	TcpSocket
 {

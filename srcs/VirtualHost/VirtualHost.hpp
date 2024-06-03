@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 08:45:41 by codespace         #+#    #+#             */
-/*   Updated: 2024/06/02 08:39:21 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/03 09:09:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 /* Includes ***************************************************************** */
 #include "TcpSocket.hpp"
-#include "ConfigDataStructures.hpp"
 class VirtualHost
 {
 	private:

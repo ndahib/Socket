@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:58:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/06/02 09:11:13 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/03 09:07:50 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ HttpServer::HttpServer()
 
 HttpServer::~HttpServer()
 {
-	delete _instance;
-	delete _multiplex;
+	if (_instance != NULL) 
+		delete _instance;
+	if (_multiplex != NULL)
+		delete _multiplex;
 	if (_handler != NULL)
 		delete _handler;
 	_log.close();
@@ -54,20 +56,20 @@ HttpServer *HttpServer::getInstance()
 
 void	HttpServer::readConfig(const char *config_file)
 {
-	_config.parse(config_file);
+	// _config.parse(config_file);
 }
 
 void	HttpServer::setup()
 {
-	std::vector<t_listen> listenVec = _config.getAllListens();
-	for (std::vector<t_listen>::iterator listen = listenVec.begin(); listen != listenVec.end(); listen++)
-	{
-		VirtualHost virtual_host = VirtualHost(*listen);
-		this->addVirtualHost(virtual_host);
-		if (virtual_host.SetupServer() == -1)
-			throw("Could not setup server with given listen");
-		_multiplex->Register(READ, virtual_host.get_socket());
-	}
+	// std::vector<t_listen> listenVec = _config.getAllListens();
+	// for (std::vector<t_listen>::iterator listen = listenVec.begin(); listen != listenVec.end(); listen++)
+	// {
+	// 	VirtualHost virtual_host = VirtualHost(*listen);
+	// 	this->addVirtualHost(virtual_host);
+	// 	if (virtual_host.SetupServer() == -1)
+	// 		throw("Could not setup server with given listen");
+	// 	_multiplex->Register(READ, virtual_host.get_socket());
+	// }
 }
 
 void	HttpServer::run()

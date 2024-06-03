@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 06:53:38 by codespace         #+#    #+#             */
-/*   Updated: 2024/06/01 11:33:16 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/02 10:34:25 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "TcpSocket.hpp"
 #include "Request.hpp"
+#include "websrv.hpp"
 
 
 class Client

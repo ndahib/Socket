@@ -6,26 +6,24 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 08:15:52 by ndahib            #+#    #+#             */
-/*   Updated: 2024/06/02 09:19:17 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/03 09:13:15 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "HttpServer.hpp"
+#include <iostream>
+#include <yaml-cpp/yaml.h>
 
-int main(int ac , char **av)
-{
-	HttpServer *PtrServer = HttpServer::getInstance();
-	try{
-		// std::cout << "Server access log and error at /workspaces/Socket/Server.log" << std::endl;
-		// PtrServer->log();
-		PtrServer->readConfig(av[1]);
-		PtrServer->setup();
-		std::cout << GREEN << "Server is Running" << END << std::endl;
-		PtrServer->run();
-	}catch(...)
-	{
-		delete PtrServer;
-	};
-	return (0);
+int main() {
+    // Load the YAML file
+    YAML::Node config = YAML::LoadFile("config.conf");
+
+    // Access the data
+    std::string host = config["server"]["host"].as<std::string>();
+    int port = config["server"]["port"].as<int>();
+
+    // Print the data
+    std::cout << "Server Host: " << host << std::endl;
+    std::cout << "Server Port: " << port << std::endl;
+
+    return 0;
 }
-
