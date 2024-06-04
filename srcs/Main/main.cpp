@@ -6,7 +6,7 @@
 /*   By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 08:15:52 by ndahib            #+#    #+#             */
-/*   Updated: 2024/06/04 10:46:56 by ndahib           ###   ########.fr       */
+/*   Updated: 2024/06/04 11:11:53 by ndahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,10 @@ void Parsertest()
 		std::cout << "Our root is a map Structured" << std::endl;
 		for (YAML::const_iterator it = root.begin(); it != root.end(); ++it)
 		{
-			std::cout <<"Node :" << it->first << std::endl;
+			std::cout <<"Node :" << it->first << ": " << it->second << std::endl;
 		}
 	}
-	else
-	{
-		std::cout << "Our root is not a map Structured " << std::endl;
-	}
-	if (root["Http"].IsMap())
-	{
-		std::cout << "Root node is Complex not simple " << std::endl;
-	}
-}
+} r                                                         
 
 void testLoginFile()
 {

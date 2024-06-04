@@ -13,4 +13,9 @@ Http:
       - 8083
     index: index.htm
     root: /users/ndahib/Desktop/
+    location:
+      - path: /test
+      - index: index.html
+      - root: /var/www/html
+
 include:  "Yaml/Login.yaml"
