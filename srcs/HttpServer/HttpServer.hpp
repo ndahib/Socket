@@ -43,8 +43,12 @@ class HttpServer
 	/* ***Construction************************************************* */
 		
 		HttpServer();
-		HttpServer(HttpServer const &copy) = delete;
-		HttpServer &operator=(HttpServer const &copy) = delete;
+		HttpServer(HttpServer const &copy){(void)copy;}; // To change by delete
+		HttpServer &operator=(HttpServer const &copy)
+		{
+			(void)copy;
+			return (*this);
+		};
 	
 	/* ***Method******************************************************* */
 	public:

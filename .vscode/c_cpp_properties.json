@@ -3,8 +3,8 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**",
-                "/home/linuxbrew/.linuxbrew/Cellar/yaml-cpp/0.8.0/include"
+                "${workspaceFolder}/**"
+                // "/home/linuxbrew/.linuxbrew/Cellar/yaml-cpp/0.8.0/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",

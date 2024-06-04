@@ -14,10 +14,11 @@
 
 /* ***Construction*********************************************************** */
 
+#include "websrv.hpp"
 ResponseHandler::ResponseHandler(int fd)
 {
 	_fd = fd;
-	_server = nullptr;
+	_server = NULL;
 }
 
 ResponseHandler::~ResponseHandler(){

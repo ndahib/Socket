@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
+#    By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 15:15:44 by ndahib            #+#    #+#              #
-#    Updated: 2024/06/03 07:05:34 by codespace        ###   ########.fr        #
+#    Updated: 2024/06/03 12:26:27 by ndahib           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,9 @@ INC_DIR		:= $(shell find $(SRC_DIR) -type d)
 # ******Files**************************************************************** #
 
 AUXFILES	:= Server.log
-SRCFILES	:= $(shell find $(SRC_DIR/*) -type f -name "*.cpp")
-HDRFILES	:= $(shell find $(SRC_DIR/*) -type f -name "*.hpp")
+# SRCFILES	:= $(shell find $(SRC_DIR/*) -type -f -name "*.cpp")
+SRCFILES    := $(shell find $(SRC_DIR) -type f -name "*.cpp")
+HDRFILES	:= $(shell find $(SRC_DIR) -type f -name "*.hpp")
 OBJFILES	:= $(patsubst $(SRC_DIR/*)/%.cpp,$(OBJ_DIR)/%.o,$(SRCFILES))
 
 
@@ -28,8 +29,10 @@ OBJFILES	:= $(patsubst $(SRC_DIR/*)/%.cpp,$(OBJ_DIR)/%.o,$(SRCFILES))
 
 RM			:= rm -rf
 CPP			:= c++
-CPPFLAGS	:= -Wall -Wextra -Werror -g -fsanitize=address
+CPPFLAGS	:= -std=c++11
 INCLUDE		:= $(addprefix -I , $(INC_DIR))
+YAML_CPP_INCLUDE := -I/Users/ndahib/.brew/Cellar/yaml-cpp/0.8.0/include
+YAML_CPP_LIB := -L/Users/ndahib/.brew/Cellar/yaml-cpp/0.8.0/lib -lyaml-cpp
 
 # ******Colors*************************************************************** #
 DEF			:= \033[3;39m
@@ -45,13 +48,13 @@ YELLOW		:= \033[3;93m
 all: $(NAME)
 
 $(NAME): $(OBJFILES)
-	$(CPP) $(CPPFLAGS) $(INCLUDE) $(OBJFILES) -o $@
+	$(CPP) $(CPPFLAGS) $(INCLUDE) $(YAML_CPP_INCLUDE) $^ $(YAML_CPP_LIB) -o $@
 	@touch Server.log
 	@printf "$(GREEN) [OK]	$(YELLOW) Our Srbaay  is created !! $(DEF)\n"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(HDRFILES)
 	mkdir -p $(dir $@)
-	$(CPP) $(CFLAGS) $(INCLUDE) -c $< -o $@
+	$(CPP) $(CPPFLAGS) $(INCLUDE) $(YAML_CPP_INCLUDE) $^ $(YAML_CPP_LIB) -c $< -o $@
 	printf "$(GREEN) [OK]	$(PURPLE)Compiling ==> $(DEF)%5s\n" $<
 
 clean:

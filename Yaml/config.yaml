@@ -1,0 +1,5 @@
+server:
+  root : /
+  port: 8080
+  host: example.com
+  index: html
