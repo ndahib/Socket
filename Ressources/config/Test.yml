@@ -1,3 +1,9 @@
+error_page:
+  - 404: /error404.html
+  - 500: /error500.html
+  - 503: /error503.html
+  - 504: /error504.html
+
 Http:
   server:
     host: 127.0.0.1

@@ -6,7 +6,7 @@
 /*   By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 08:15:52 by ndahib            #+#    #+#             */
-/*   Updated: 2024/06/04 11:11:53 by ndahib           ###   ########.fr       */
+/*   Updated: 2024/06/06 13:20:14 by ndahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ void Parsertest()
 {
 	YAML::Node root;
 
-	root = YAML::LoadFile("Yaml/Test.yml");
+	root = YAML::LoadFile("Ressources/Config/Test.yml");
 	std::cout << "Loading map is successful" << std::endl;
 	if (root.IsMap())
 	{
 		std::cout << "Our root is a map Structured" << std::endl;
 		for (YAML::const_iterator it = root.begin(); it != root.end(); ++it)
 		{
-			std::cout <<"Node :" << it->first << ": " << it->second << std::endl;
+			std::cout <<"Node :" << it->first << std::endl;
 		}
 	}
-} r                                                         
+}                                                  
 
 void testLoginFile()
 {

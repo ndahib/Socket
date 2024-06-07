@@ -1,0 +1,32 @@
+HTTP:
+  server:
+    listen : 
+      - host + port
+      -
+    server_name:
+      -server_name1
+      -server_name2
+      -server_name3
+      -server_name...
+    error_page:(maybe local):
+    client_max_body_size:(maybe local):
+    routes:
+      -route1:
+        redirect:
+          -redirect1:
+          -redirect2:
+          -redirect3:
+          -redirect...
+        Allowed_methods(maybe local):
+      -route2:
+      -route3:
+      -route... 
+    default_file:
+    Directory-listing: on | off
+
+Globlal:
+  eror_page:
+  client_max_body_size:
+  allowed_methods:
+
+include "should be Global not inside the server Blocks"
