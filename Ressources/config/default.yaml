@@ -1,8 +1,3 @@
-error_page:
-  - 404: /error404.html
-  - 500: /error500.html
-  - 503: /error503.html
-  - 504: /error504.html
 
 HTTP:
   server:
@@ -18,10 +13,11 @@ HTTP:
       - 8082
       - 8083
     index: index.htm
-    root: /users/ndahib/Desktop/
+    root: /users/ndahib/Desktop/c
     location:
       - path: /test
       - index: index.html
       - root: /var/www/html
 
+error_page: /error404.html
 include:  "Yaml/Login.yaml"

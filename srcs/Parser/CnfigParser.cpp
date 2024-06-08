@@ -6,7 +6,7 @@
 /*   By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:39:10 by ndahib            #+#    #+#             */
-/*   Updated: 2024/06/07 12:10:41 by ndahib           ###   ########.fr       */
+/*   Updated: 2024/06/08 15:25:27 by ndahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,35 +22,28 @@ ConfigParser::ConfigParser(const char *path)
 
 void	ConfigParser::parse()
 {
-	if (_root.IsNull())
-		std::cout << "_root is Null" << std::endl;
-		// throw(YAML::Exception(__LINE__, "Empty File"));
-	for (YAML::const_iterator it = _root.begin(); it != _root.end(); ++it){
-		std::string Directive = it->first.as<std::string>();
-		if (Directive == "HTTP"){
-			std::cout << "HTTP Directive" << std::endl;
-			std::vector<YAML::Node> servers;
-			if (it->second.IsMap())
+	std::vector<std::map<std::string, YAML::Node>> ServerConfigs;
+
+	if (_root.IsNull() == true)
+		throw (std::runtime_error("Empty Config File"));
+	if (_root.IsMap() == true)
+		throw (std::runtime_error("Correct the structure of Config File"));
+	for (YAML::const_iterator rootIt = _root.begin(); rootIt != _root.end(); ++rootIt)
+	{
+		std::string CurrentDirective = rootIt->first.as<std::string>();
+		if (CurrentDirective == "HTTP")
+		{
+			// Create a Vector of ServerConfig 
+		}
+		else if (CurrentDirective == "GLOBAL")
+		{
+			if (rootIt->IsScalar()) //Just key :Value
+				_global_directives[CurrentDirective] = rootIt->second;
+			else if (rootIt->IsSequence())
 			{
-				for (YAML::const_iterator it1 = it->second.begin(); it1 != it->second.end(); ++it1)
-				{
-					std::cout << it->second << std::endl;
-					servers.push_back(*it1);
-				std::cout << "===========================" << std::endl;
-				}
-				_directives["HTTP"] = servers;
+				// Convert from complex nodes to scalar nodes
+				
 			}
 		}
-		else if (Directive == "error_page" || Directive == "client_max_body_size" || Directive == "allowed_methods"){
-			std::cout << "Global Directive" << std::endl;
-			// Share 
-		}
-		else if (Directive == "include"){
-			std::cout << "Include Directive" << std::endl;
-		}
-		else {
-			std::cout << "Enter here to unknow directive of ParserConig" << std::endl;
-			throw YAML::ParserException(it->Mark(), "unkonw directive");
-		}
-	} /*For loop*/
+	}
 }
