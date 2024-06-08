@@ -6,74 +6,58 @@
 /*   By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 08:15:52 by ndahib            #+#    #+#             */
-/*   Updated: 2024/06/06 13:20:14 by ndahib           ###   ########.fr       */
+/*   Updated: 2024/06/07 12:04:04 by ndahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <fstream>
-#include <yaml-cpp/yaml.h>
+#include "HttpServer.hpp"
+// void Parsertest()
+// {
+// 	YAML::Node root;
+
+// 	root = YAML::LoadFile("Ressources/Config/Test.yml");
+// 	std::cout << "Loading map is successful" << std::endl;
+// 	if (root.IsMap())
+// 	{
+// 		std::cout << "Our root is a map Structured" << std::endl;
+// 		for (YAML::const_iterator it = root.begin(); it != root.end(); ++it)
+// 		{
+// 			std::cout <<"Node :" << it->first << std::endl;
+// 		}
+// 	}
+// }                                                  
 
 
-void Parsertest()
+int main(int ac, char **av)
 {
-	YAML::Node root;
-
-	root = YAML::LoadFile("Ressources/Config/Test.yml");
-	std::cout << "Loading map is successful" << std::endl;
-	if (root.IsMap())
-	{
-		std::cout << "Our root is a map Structured" << std::endl;
-		for (YAML::const_iterator it = root.begin(); it != root.end(); ++it)
-		{
-			std::cout <<"Node :" << it->first << std::endl;
-		}
-	}
-}                                                  
-
-void testLoginFile()
-{
-	YAML::Node config = YAML::LoadFile("Yaml/Login.yaml");
-
-	const std::string username = config["username"].as<std::string>();
-	const std::string password = config["password"].as<std::string>();
-
-	std::cout << "Username : " << username << std::endl;
-	std::cout  << "Password: " << password << std::endl;
-}
-
-void testConfigServer()
-{
+	(void)ac;
+	HttpServer *DirectorServer = HttpServer::getInstance();
 	try{
-		YAML::Node config = YAML::LoadFile("Yaml/config.yaml");
-		{
-			if (config["server"])
-			{
-				std::cout << "The Server :" << std::endl;
-			}
-			const std::string host = config["server"]["host"].as<std::string>();
-			const std::string index = config["server"]["index"].as<std::string>();
-			const int port = config["server"]["port"].as<int>();
-			std::cout << "Host: " << host << std::endl;
-			std::cout << "Port: " << port << std::endl;
-			std::cout << "Index: " << index << std::endl;
-			
-		}
-	}catch(std::exception &e)
+		if (av[1] != NULL)
+			DirectorServer->readConfig(av[1]);
+		else
+			DirectorServer->readConfig();
+		DirectorServer->run();
+	}
+	catch(YAML::Exception &e)
 	{
 		std::cout << e.what() << std::endl;
+		delete DirectorServer;
 	}
-}
-
-
-int main(){
-	try{
-		// testConfigServer();
-		// testLoginFile();
-		Parsertest();
-	}catch(std::exception &e)
+	catch(YAML::KeyNotFound &e)
 	{
 		std::cout << e.what() << std::endl;
+		delete DirectorServer;
 	}
+	catch(YAML::BadFile &e)
+	{
+		std::cout << e.what() << std::endl;
+		delete DirectorServer;
+	}
+	catch(...)
+	{
+		std::cout << "Unknown Fatal error in Server , Server will Stop " << std::endl;
+		delete DirectorServer;
+	};
 	return (0);
 }

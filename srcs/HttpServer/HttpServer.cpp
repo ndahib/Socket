@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   HttpServer.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:58:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/06/03 09:46:45 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/07 11:40:23 by ndahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,9 @@ HttpServer *HttpServer::getInstance()
 
 void	HttpServer::readConfig(const char *config_file)
 {
-	(void)config_file;
-	// _config.parse(config_file);
+	_config = ConfigParser(config_file);
+	_config.parse();
+	exit(1);
 }
 
 void	HttpServer::setup()

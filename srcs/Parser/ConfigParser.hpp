@@ -6,7 +6,7 @@
 /*   By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:32:15 by ndahib            #+#    #+#             */
-/*   Updated: 2024/06/06 12:52:23 by ndahib           ###   ########.fr       */
+/*   Updated: 2024/06/07 12:02:24 by ndahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,22 @@
 #include <yaml-cpp/yaml.h>
 
 #ifndef DEFAULT_CONFIG
-#define DEFAULT_CONFIG "./srcs/Ressources/config/default.yml"
-#endif
+#define DEFAULT_CONFIG "./Ressources/config/default.yaml"
+#endif /*!_DEFAULT_CONFIG*/
 
 class ConfigParser {
 public:
-    ConfigParser(const char *path = DEFAULT_CONFIG);
-    ~ConfigParser() = default;
+	ConfigParser(const char *path = DEFAULT_CONFIG);
+	~ConfigParser() = default;
 
-    void parse();
-    std::vector<YAML::Node> getDirective(const std::string& directive);
+	void parse();
+	std::vector<YAML::Node> getDirective(const std::string& directive);
 
 private:
-    YAML::Node root;
-    std::map<std::string, std::vector<YAML::Node>> directives;
+	YAML::Node _root;
+	std::map<std::string, std::vector<YAML::Node>> _directives;
 
-    void loadIncludeFiles();
+	void loadIncludeFiles();
 };
 
 #endif	/* CONFIGPARSER_HPP */

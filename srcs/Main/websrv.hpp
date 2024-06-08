@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   websrv.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:20:44 by codespace         #+#    #+#             */
-/*   Updated: 2024/06/03 07:05:50 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/07 11:39:43 by ndahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@
 
 # define END	"\033[0m"
 # define RESET "\033[0m"
-
-# define DEFAULT_CONFIG "./srcs/config/files/default.conf"
 
 /* ***Includes************************************************************** */
 
@@ -90,7 +88,7 @@
 // Default
 # define RECV_SIZE 65536
 # define CGI_BUFSIZE 65536
-# define DEFAULT_CONFIG "./srcs/config/files/default.conf"
+# define DEFAULT_CONFIG "./Ressources/config/default.yaml"
 
 // Output
 # ifndef OUT

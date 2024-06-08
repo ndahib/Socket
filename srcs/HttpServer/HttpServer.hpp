@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   HttpServer.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:46:32 by codespace         #+#    #+#             */
-/*   Updated: 2024/06/03 09:07:56 by codespace        ###   ########.fr       */
+/*   Updated: 2024/06/07 10:33:39 by ndahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "RequestHandler.hpp"
 # include "ResponseHandler.hpp"
 # include "SelectMultiplex.hpp"
+# include "ConfigParser.hpp"
 
 #define TIMEOUTS 5
 
@@ -31,7 +32,7 @@ class HttpServer
 	/* ***Attributes*************************************************** */
 	
 		// ServerConfig _config; that have info aboutVirtualHost;
-		// Config 						_config;
+		ConfigParser 				_config;
 		IHandler					*_handler;
 		IMultiplex					*_multiplex;
 		std::fstream				_log;
@@ -52,7 +53,7 @@ class HttpServer
 	
 	/* ***Method******************************************************* */
 	public:
-		void 				readConfig(const char *config_file);
+		void 				readConfig(const char *config_file = DEFAULT_CONFIG);
 		void				setup();
 		void 				run();
 		void 				stop();
