@@ -6,7 +6,7 @@
 /*   By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:39:10 by ndahib            #+#    #+#             */
-/*   Updated: 2024/06/09 12:35:33 by ndahib           ###   ########.fr       */
+/*   Updated: 2024/06/10 12:51:31 by ndahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	ConfigParser::parse()
 		throw (std::runtime_error("Correct the structure of Config File"));
 	parse(_root);
 	mergeServerBlocksAndGlobals();
+	print();
 }
 
 // Merge the global Variables with the Server Blocks
@@ -54,12 +55,14 @@ void ConfigParser::parse(const YAML::Node& node) {
 				std::cerr << "Error while parsing included file: " << e.what() << std::endl;
 			}
 		} else if (currentDirective == "http") {
-			for (auto& serverIt : it->second) {
-				if (serverIt.first.as<std::string>() == "server") {
-					_serverdirectives.push_back(serverIt.second.as<std::map<std::string, YAML::Node>>());
-				} else if (serverIt.first.as<std::string>() == "include") {
+			for (YAML::const_iterator serverIt = it->second.begin(); serverIt != it->second.end(); ++serverIt) {
+				if (serverIt->first.as<std::string>() == "server") {
+				{
+					_serverdirectives.push_back(serverIt->second.as<std::map<std::string, YAML::Node>>());
+				}
+				} else if (serverIt->first.as<std::string>() == "include") {
 					try {
-						YAML::Node includeConfig = YAML::LoadFile(serverIt.second.as<std::string>());
+						YAML::Node includeConfig = YAML::LoadFile(serverIt->second.as<std::string>());
 						parse(includeConfig);
 					} catch (const YAML::Exception& e) {
 						std::cerr << "Error while parsing included file: " << e.what() << std::endl;
@@ -67,7 +70,7 @@ void ConfigParser::parse(const YAML::Node& node) {
 				}
 			}
 		} else if (currentDirective == "global") {
-			if (it->second.as<std::string>() == "include") {
+			if (it->second.IsScalar() == true && it->second.as<std::string>() == "include") {
 				try {
 					YAML::Node includeConfig = YAML::LoadFile(it->second.as<std::string>());
 					parse(includeConfig);
@@ -83,14 +86,12 @@ void ConfigParser::parse(const YAML::Node& node) {
 void ConfigParser::ConvertNode(const YAML::Node& node) {
 	if (node.IsMap()) {
 		for (YAML::const_iterator it = node.begin(); it != node.end(); ++it) {
-			std::cout << "Enter here \n"; 
 			_global_directives[it->first.as<std::string>()] = it->second;
 		}
 	}
 	else if (node.IsScalar())
 	{
 		//Not sure about it ;
-		std::cout << "to handle Scalara" << std::endl;
 		_global_directives[node.begin()->first.as<std::string>()] = node.begin()->second;
 	}
 	
