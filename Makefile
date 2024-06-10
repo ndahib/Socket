@@ -6,7 +6,7 @@
 #    By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 15:15:44 by ndahib            #+#    #+#              #
-#    Updated: 2024/06/03 12:26:27 by ndahib           ###   ########.fr        #
+#    Updated: 2024/06/08 15:52:38 by ndahib           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ OBJFILES	:= $(patsubst $(SRC_DIR/*)/%.cpp,$(OBJ_DIR)/%.o,$(SRCFILES))
 
 RM			:= rm -rf
 CPP			:= c++
-CPPFLAGS	:= -std=c++11
+CPPFLAGS	:= -std=c++11 -fsanitize=address
 INCLUDE		:= $(addprefix -I , $(INC_DIR))
 YAML_CPP_INCLUDE := -I/Users/ndahib/.brew/Cellar/yaml-cpp/0.8.0/include
 YAML_CPP_LIB := -L/Users/ndahib/.brew/Cellar/yaml-cpp/0.8.0/lib -lyaml-cpp

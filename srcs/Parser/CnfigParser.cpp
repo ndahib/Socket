@@ -6,7 +6,7 @@
 /*   By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:39:10 by ndahib            #+#    #+#             */
-/*   Updated: 2024/06/08 15:25:27 by ndahib           ###   ########.fr       */
+/*   Updated: 2024/06/09 12:35:33 by ndahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,94 @@ ConfigParser::ConfigParser(const char *path)
 
 void	ConfigParser::parse()
 {
-	std::vector<std::map<std::string, YAML::Node>> ServerConfigs;
-
 	if (_root.IsNull() == true)
 		throw (std::runtime_error("Empty Config File"));
-	if (_root.IsMap() == true)
+	if (_root.IsMap() == false)
 		throw (std::runtime_error("Correct the structure of Config File"));
-	for (YAML::const_iterator rootIt = _root.begin(); rootIt != _root.end(); ++rootIt)
-	{
-		std::string CurrentDirective = rootIt->first.as<std::string>();
-		if (CurrentDirective == "HTTP")
-		{
-			// Create a Vector of ServerConfig 
+	parse(_root);
+	mergeServerBlocksAndGlobals();
+}
+
+// Merge the global Variables with the Server Blocks
+void	ConfigParser::mergeServerBlocksAndGlobals()
+{
+	for (auto& ServerBlockIt : _serverdirectives) {
+		for (auto globalIt = _global_directives.begin(); globalIt != _global_directives.end(); globalIt++)	{
+			if (ServerBlockIt.find(globalIt->first) == ServerBlockIt.end())
+				ServerBlockIt.insert(globalIt, globalIt);
 		}
-		else if (CurrentDirective == "GLOBAL")
-		{
-			if (rootIt->IsScalar()) //Just key :Value
-				_global_directives[CurrentDirective] = rootIt->second;
-			else if (rootIt->IsSequence())
-			{
-				// Convert from complex nodes to scalar nodes
-				
+	}	
+}
+
+
+//Parsing Using Recursion to Handle the include Nodes
+void ConfigParser::parse(const YAML::Node& node) {
+	for (YAML::const_iterator it = node.begin(); it != node.end(); ++it) {
+		std::string currentDirective = it->first.as<std::string>();
+		if (currentDirective == "include") {
+			try {
+				YAML::Node includeConfig = YAML::LoadFile(it->second.as<std::string>());
+				parse(includeConfig);
+			} catch (const YAML::Exception& e) {
+				std::cerr << "Error while parsing included file: " << e.what() << std::endl;
+			}
+		} else if (currentDirective == "http") {
+			for (auto& serverIt : it->second) {
+				if (serverIt.first.as<std::string>() == "server") {
+					_serverdirectives.push_back(serverIt.second.as<std::map<std::string, YAML::Node>>());
+				} else if (serverIt.first.as<std::string>() == "include") {
+					try {
+						YAML::Node includeConfig = YAML::LoadFile(serverIt.second.as<std::string>());
+						parse(includeConfig);
+					} catch (const YAML::Exception& e) {
+						std::cerr << "Error while parsing included file: " << e.what() << std::endl;
+					}
+				}
+			}
+		} else if (currentDirective == "global") {
+			if (it->second.as<std::string>() == "include") {
+				try {
+					YAML::Node includeConfig = YAML::LoadFile(it->second.as<std::string>());
+					parse(includeConfig);
+				} catch (const YAML::Exception& e) {
+					std::cerr << "Error while parsing included file: " << e.what() << std::endl;
+				}
+			} else {
+				ConvertNode(it->second);
 			}
 		}
 	}
 }
+void ConfigParser::ConvertNode(const YAML::Node& node) {
+	if (node.IsMap()) {
+		for (YAML::const_iterator it = node.begin(); it != node.end(); ++it) {
+			std::cout << "Enter here \n"; 
+			_global_directives[it->first.as<std::string>()] = it->second;
+		}
+	}
+	else if (node.IsScalar())
+	{
+		//Not sure about it ;
+		std::cout << "to handle Scalara" << std::endl;
+		_global_directives[node.begin()->first.as<std::string>()] = node.begin()->second;
+	}
+	
+	else if (node.IsSequence()) {
+		for (auto &it : node){
+			ConvertNode(it);
+		}
+	}
+}
+	
+
+ void	ConfigParser::print()
+ {
+	for (auto& it : _serverdirectives)
+	{
+		for (auto& it2 : it)
+		{
+			std::cout << it2.first << " : " << it2.second << std::endl;
+		}
+		std::cout << "******************************" << std::endl;
+	}
+ }

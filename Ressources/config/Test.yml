@@ -1,27 +1,11 @@
-error_page:
-  - 404: /error404.html
-  - 500: /error500.html
-  - 503: /error503.html
-  - 504: /error504.html
-
-Http:
-  server:
-    host: 127.0.0.1
-    port:
-      - 8080
-      - 8081
-    index: index.html
-    root: /var/www/html
-  server:
-    host: 127.0.0.1
-    port:
-      - 8082
-      - 8083
-    index: index.htm
-    root: /users/ndahib/Desktop/
-    location:
-      - path: /test
-      - index: index.html
-      - root: /var/www/html
-
-include:  "Yaml/Login.yaml"
+error_pages
+  - 404: /404.html
+  - 500: /500.html
+  - 503: /503.html
+  - 200: /200.html
+  - 302: /302.html
+  - 304: /304.html
+  - 400: /400.html
+  - 403: /403.html
+  - 405: /405.html
+  - 406: /406.html
