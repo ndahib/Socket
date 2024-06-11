@@ -6,7 +6,7 @@
 /*   By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:58:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/06/07 11:40:23 by ndahib           ###   ########.fr       */
+/*   Updated: 2024/06/11 10:21:47 by ndahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,18 @@ void	HttpServer::readConfig(const char *config_file)
 {
 	_config = ConfigParser(config_file);
 	_config.parse();
-	exit(1);
 }
-
 void	HttpServer::setup()
 {
-	// std::vector<t_listen> listenVec = _config.getAllListens();
-	// for (std::vector<t_listen>::iterator listen = listenVec.begin(); listen != listenVec.end(); listen++)
-	// {
-	// 	VirtualHost virtual_host = VirtualHost(*listen);
-	// 	this->addVirtualHost(virtual_host);
-	// 	if (virtual_host.SetupServer() == -1)
-	// 		throw("Could not setup server with given listen");
-	// 	_multiplex->Register(READ, virtual_host.get_socket());
-	// }
+	const auto servers = _config.getServers();
+	for (const auto& server : servers)
+	{
+		const VirtualHost currentVirtualHost{server};
+		this->addVirtualHost(currentVirtualHost);
+		if (currentVirtualHost.SetupServer() == -1)
+			throw std::runtime_error("Could not setup server with given listen");
+		_multiplex->Register(READ, currentVirtualHost.get_socket());
+	}
 }
 
 void	HttpServer::run()

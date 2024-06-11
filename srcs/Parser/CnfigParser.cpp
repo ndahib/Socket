@@ -6,7 +6,7 @@
 /*   By: ndahib <ndahib@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:39:10 by ndahib            #+#    #+#             */
-/*   Updated: 2024/06/10 12:51:31 by ndahib           ###   ########.fr       */
+/*   Updated: 2024/06/11 10:05:12 by ndahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ void ConfigParser::ConvertNode(const YAML::Node& node) {
 }
 	
 
- void	ConfigParser::print()
- {
+void	ConfigParser::print()
+{
 	for (auto& it : _serverdirectives)
 	{
 		for (auto& it2 : it)
@@ -113,4 +113,10 @@ void ConfigParser::ConvertNode(const YAML::Node& node) {
 		}
 		std::cout << "******************************" << std::endl;
 	}
- }
+}
+
+/* *****Getters*************************************************************** */
+std::vector<std::map<std::string, YAML::Node>>  ConfigParser::getServers() const
+{
+	return (_serverdirectives);
+}
